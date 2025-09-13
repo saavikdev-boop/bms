@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter run:*)",
+      "Bash(dart check_config.dart:*)",
+      "Bash(C:flutterbindart.exe check_config.dart)",
+      "Bash(cd:*)",
+      "Bash(./gradlew:*)",
+      "Bash(flutter clean:*)",
+      "Bash(flutter pub:*)",
+      "Read(//c/**)",
+      "Bash(where:*)",
+      "Bash(/c/Users/shikhar pulluri/Desktop/flutter/bin/flutter.bat clean)",
+      "Bash(/c/Users/shikhar pulluri/Desktop/flutter/bin/flutter.bat pub get)",
+      "Bash(/c/Users/shikhar pulluri/Desktop/flutter/bin/flutter.bat run --hot)",
+      "Bash(/c/Users/shikhar pulluri/Desktop/flutter/bin/flutter.bat run -d chrome --hot)",
+      "Bash(/c/Users/shikhar pulluri/Desktop/flutter/bin/flutter.bat devices)",
+      "Bash(/c/Users/shikhar pulluri/Desktop/flutter/bin/flutter.bat run -d emulator-5554 --hot)",
+      "Bash(\"C:\\Users\\shikhar pulluri\\Desktop\\flutter\\bin\\flutter.bat\" run -d emulator-5554 --hot)",
+      "Bash(\"C:\\Users\\shikhar pulluri\\Desktop\\flutter\\bin\\flutter.bat\" pub get)",
+      "Bash(\"C:\\Users\\shikhar pulluri\\Desktop\\flutter\\bin\\flutter.bat\" devices)",
+      "Bash(timeout:*)",
+      "Bash(\"C:\\Users\\shikhar pulluri\\Desktop\\flutter\\bin\\flutter.bat\" emulators)",
+      "Bash(\"C:\\Users\\shikhar pulluri\\Desktop\\flutter\\bin\\flutter.bat\" emulators --launch Pixel_9)",
+      "Bash(git remote set-url:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'my_profile_screen.dart';
 
 class BmsScreen07Dashboard extends StatefulWidget {
   const BmsScreen07Dashboard({super.key});
@@ -81,14 +82,24 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                             const SizedBox(width: 11),
                             const Icon(Icons.notifications_outlined, color: Colors.white, size: 20),
                             const SizedBox(width: 11),
-                            Container(
-                              width: 30,
-                              height: 30,
-                              decoration: const BoxDecoration(
-                                color: Colors.grey,
-                                shape: BoxShape.circle,
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const MyProfileScreen(),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                width: 30,
+                                height: 30,
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFFFAB301),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(Icons.person, color: Colors.black, size: 16),
                               ),
-                              child: const Icon(Icons.person, color: Colors.white, size: 16),
                             ),
                           ],
                         ),

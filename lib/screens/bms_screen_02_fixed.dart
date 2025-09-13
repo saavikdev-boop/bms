@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'bms_screen_03_profile.dart';
+import '../services/google_auth_service.dart';
 
 class BmsScreen02Fixed extends StatefulWidget {
   const BmsScreen02Fixed({super.key});
@@ -12,6 +14,8 @@ class BmsScreen02Fixed extends StatefulWidget {
 class _BmsScreen02FixedState extends State<BmsScreen02Fixed> with TickerProviderStateMixin {
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
+  final GoogleAuthService _authService = GoogleAuthService();
+  bool _isSigningIn = false;
 
   @override
   void initState() {
@@ -33,6 +37,62 @@ class _BmsScreen02FixedState extends State<BmsScreen02Fixed> with TickerProvider
   void dispose() {
     _fadeController.dispose();
     super.dispose();
+  }
+
+  Future<void> _signInWithGoogle() async {
+    setState(() {
+      _isSigningIn = true;
+    });
+
+    HapticFeedback.lightImpact();
+
+    try {
+      final User? user = await _authService.signInWithGoogle();
+      
+      if (user != null) {
+        if (mounted) {
+          Navigator.of(context).pushReplacement(
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) => const BmsScreen03Profile(),
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                return SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(1.0, 0.0),
+                    end: Offset.zero,
+                  ).animate(animation),
+                  child: child,
+                );
+              },
+              transitionDuration: const Duration(milliseconds: 300),
+            ),
+          );
+        }
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Sign in was cancelled'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Sign in failed: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSigningIn = false;
+        });
+      }
+    }
   }
 
   @override
@@ -218,9 +278,7 @@ class _BmsScreen02FixedState extends State<BmsScreen02Fixed> with TickerProvider
                         children: [
                           // Google
                           GestureDetector(
-                            onTap: () {
-                              HapticFeedback.lightImpact();
-                            },
+                            onTap: _isSigningIn ? null : _signInWithGoogle,
                             child: Container(
                               width: 48,
                               height: 48,
@@ -236,11 +294,45 @@ class _BmsScreen02FixedState extends State<BmsScreen02Fixed> with TickerProvider
                                   ),
                                 ],
                               ),
-                              child: const Icon(
-                                Icons.g_mobiledata_rounded,
-                                color: Colors.red,
-                                size: 28,
-                              ),
+                              child: _isSigningIn
+                                  ? const SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                                      ),
+                                    )
+                                  : Center(
+                                      child: Container(
+                                        width: 24,
+                                        height: 24,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(4),
+                                          gradient: const LinearGradient(
+                                            colors: [
+                                              Color(0xFF4285F4), // Google Blue
+                                              Color(0xFF34A853), // Google Green
+                                              Color(0xFFFBBC05), // Google Yellow
+                                              Color(0xFFEA4335), // Google Red
+                                            ],
+                                            stops: [0.0, 0.33, 0.66, 1.0],
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                          ),
+                                        ),
+                                        child: const Center(
+                                          child: Text(
+                                            'G',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                             ),
                           ),
                           

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'bms_screen_06_loading.dart';
+import '../services/onboarding_data.dart';
 
 class BmsScreen05Interests extends StatefulWidget {
   const BmsScreen05Interests({super.key});
@@ -167,23 +168,44 @@ class _BmsScreen05InterestsState extends State<BmsScreen05Interests> with Ticker
                             width: double.infinity,
                             height: 58,
                             child: ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 HapticFeedback.mediumImpact();
-                                Navigator.of(context).push(
-                                  PageRouteBuilder(
-                                    pageBuilder: (context, animation, secondaryAnimation) => const BmsScreen06Loading(),
-                                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                      return SlideTransition(
-                                        position: Tween<Offset>(
-                                          begin: const Offset(1.0, 0.0),
-                                          end: Offset.zero,
-                                        ).animate(animation),
-                                        child: child,
-                                      );
-                                    },
-                                    transitionDuration: const Duration(milliseconds: 300),
-                                  ),
-                                );
+
+                                // Save interests and complete onboarding data to Firebase
+                                final onboardingData = OnboardingData();
+                                final selectedInterests = selectedIndices.map((index) => categories[index]).toList();
+                                onboardingData.interests = selectedInterests;
+
+                                // Debug print
+                                onboardingData.printData();
+
+                                // Save to Firebase
+                                final success = await onboardingData.saveToFirebase();
+
+                                if (success) {
+                                  print('✅ User profile saved to Firebase successfully!');
+                                } else {
+                                  print('❌ Failed to save user profile to Firebase');
+                                }
+
+                                // Navigate to loading screen regardless of save result
+                                if (mounted) {
+                                  Navigator.of(context).push(
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation, secondaryAnimation) => const BmsScreen06Loading(),
+                                      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                        return SlideTransition(
+                                          position: Tween<Offset>(
+                                            begin: const Offset(1.0, 0.0),
+                                            end: Offset.zero,
+                                          ).animate(animation),
+                                          child: child,
+                                        );
+                                      },
+                                      transitionDuration: const Duration(milliseconds: 300),
+                                    ),
+                                  );
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFFA1FF00),

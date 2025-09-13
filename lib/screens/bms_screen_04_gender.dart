@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'bms_screen_05_interests.dart';
+import 'sports_interests_screen.dart';
+import '../services/onboarding_data.dart';
 
 class BmsScreen04Gender extends StatefulWidget {
   const BmsScreen04Gender({super.key});
@@ -162,9 +163,14 @@ class _BmsScreen04GenderState extends State<BmsScreen04Gender> with TickerProvid
                             child: ElevatedButton(
                               onPressed: selectedGender != null ? () {
                                 HapticFeedback.mediumImpact();
+
+                                // Save gender data to shared state
+                                final onboardingData = OnboardingData();
+                                onboardingData.gender = selectedGender;
+
                                 Navigator.of(context).push(
                                   PageRouteBuilder(
-                                    pageBuilder: (context, animation, secondaryAnimation) => const BmsScreen05Interests(),
+                                    pageBuilder: (context, animation, secondaryAnimation) => const SportsInterestsScreen(),
                                     transitionsBuilder: (context, animation, secondaryAnimation, child) {
                                       return SlideTransition(
                                         position: Tween<Offset>(

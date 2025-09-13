@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "312328302719",
+    "project_id": "bms-saavik",
+    "storage_bucket": "bms-saavik.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:312328302719:android:e49837d9901b12ef49cf4a",
+        "android_client_info": {
+          "package_name": "com.example.flutter_phone_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "312328302719-bjkrj07nsmmvte9fj5fokjq7rqim0qok.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_phone_app",
+            "certificate_hash": "2599692b9e2aabce6840c15bc7e2635210011685"
+          }
+        },
+        {
+          "client_id": "312328302719-bp8l9i0773fe1675v5tksb511l2lpij0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3PYLsD2QHk7hKxSjhyqH6VnCQQIc9VTc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "312328302719-7anti1sbpjessdvocpg5ge1t2cjpjdfu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
