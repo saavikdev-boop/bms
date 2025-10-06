@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 import 'bms_screen_04_gender.dart';
 
 class BmsScreen03Profile extends StatefulWidget {
@@ -13,9 +15,12 @@ class _BmsScreen03ProfileState extends State<BmsScreen03Profile> with TickerProv
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
 
-  final TextEditingController _firstNameController = TextEditingController(text: 'Oscar');
-  final TextEditingController _lastNameController = TextEditingController(text: 'Sun');
-  final TextEditingController _dobController = TextEditingController(text: '09/10/1998');
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _dobController = TextEditingController();
+  
+  File? _profileImage;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
@@ -42,6 +47,128 @@ class _BmsScreen03ProfileState extends State<BmsScreen03Profile> with TickerProv
     super.dispose();
   }
 
+  Future<void> _pickImage() async {
+    try {
+      final XFile? image = await _picker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 800,
+        maxHeight: 800,
+        imageQuality: 85,
+      );
+      
+      if (image != null) {
+        setState(() {
+          _profileImage = File(image.path);
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to pick image: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  void _showImageSourceDialog() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color(0xFF1E1E1E),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Choose Profile Picture',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 20),
+              ListTile(
+                leading: const Icon(Icons.photo_library, color: Color(0xFF94EA01)),
+                title: const Text('Gallery', style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  Navigator.pop(context);
+                  _pickImage();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.camera_alt, color: Color(0xFF94EA01)),
+                title: const Text('Camera', style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  Navigator.pop(context);
+                  _pickImageFromCamera();
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _pickImageFromCamera() async {
+    try {
+      final XFile? image = await _picker.pickImage(
+        source: ImageSource.camera,
+        maxWidth: 800,
+        maxHeight: 800,
+        imageQuality: 85,
+      );
+      
+      if (image != null) {
+        setState(() {
+          _profileImage = File(image.path);
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to take photo: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Future<void> _selectDate() async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime(2000),
+      firstDate: DateTime(1950),
+      lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.dark().copyWith(
+            colorScheme: const ColorScheme.dark(
+              primary: Color(0xFF94EA01),
+              onPrimary: Colors.black,
+              surface: Color(0xFF1E1E1E),
+              onSurface: Colors.white,
+            ),
+            dialogBackgroundColor: const Color(0xFF1E1E1E),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null) {
+      setState(() {
+        _dobController.text = '${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,20 +177,41 @@ class _BmsScreen03ProfileState extends State<BmsScreen03Profile> with TickerProv
         opacity: _fadeAnimation,
         child: Stack(
           children: [
-            // Background circle
-            Positioned(
-              left: -126,
-              top: -95,
-              child: Opacity(
-                opacity: 0.08,
-                child: Container(
-                  width: 282.94,
-                  height: 282.94,
-                  decoration: const ShapeDecoration(
-                    color: Color(0xFF94EA01),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(141.47)),
+            // Background image
+            Positioned.fill(
+              child: Image.asset(
+                'assets/images/screens/starting screens background.png',
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Color(0xFF000000),
+                          Color(0xFF0A0A0A),
+                          Color(0xFF1A1F1A),
+                          Color(0xFF2A3A2A),
+                        ],
+                      ),
                     ),
+                  );
+                },
+              ),
+            ),
+
+            // Dark overlay for better text readability
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.black.withOpacity(0.3),
+                      Colors.black.withOpacity(0.5),
+                    ],
                   ),
                 ),
               ),
@@ -77,7 +225,7 @@ class _BmsScreen03ProfileState extends State<BmsScreen03Profile> with TickerProv
                   
                   // Main content
                   Expanded(
-                    child: Padding(
+                    child: SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(horizontal: 25),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +238,6 @@ class _BmsScreen03ProfileState extends State<BmsScreen03Profile> with TickerProv
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 32,
-                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.w700,
                               height: 1.25,
                             ),
@@ -106,7 +253,6 @@ class _BmsScreen03ProfileState extends State<BmsScreen03Profile> with TickerProv
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
-                                fontFamily: 'Poppins',
                                 fontWeight: FontWeight.w400,
                                 height: 1.50,
                               ),
@@ -117,28 +263,51 @@ class _BmsScreen03ProfileState extends State<BmsScreen03Profile> with TickerProv
                           
                           // Profile picture
                           Center(
-                            child: Container(
-                              width: 130,
-                              height: 130,
-                              decoration: const ShapeDecoration(
-                                color: Color(0xFFF9FAFB),
-                                shape: OvalBorder(
-                                  side: BorderSide(
-                                    width: 1.04,
-                                    color: Color(0xFFE5E6EB),
+                            child: GestureDetector(
+                              onTap: _showImageSourceDialog,
+                              child: Container(
+                                width: 130,
+                                height: 130,
+                                decoration: ShapeDecoration(
+                                  color: const Color(0xFFF9FAFB),
+                                  shape: OvalBorder(
+                                    side: BorderSide(
+                                      width: 1.04,
+                                      color: _profileImage != null 
+                                        ? const Color(0xFF94EA01) 
+                                        : const Color(0xFFE5E6EB),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  'PROFILE\nPICTURE',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
+                                child: _profileImage != null
+                                    ? ClipOval(
+                                        child: Image.file(
+                                          _profileImage!,
+                                          fit: BoxFit.cover,
+                                          width: 130,
+                                          height: 130,
+                                        ),
+                                      )
+                                    : const Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.add_a_photo,
+                                            color: Color(0xFF9EA3AE),
+                                            size: 32,
+                                          ),
+                                          SizedBox(height: 8),
+                                          Text(
+                                            'Add Photo',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Color(0xFF9EA3AE),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                               ),
                             ),
                           ),
@@ -153,6 +322,7 @@ class _BmsScreen03ProfileState extends State<BmsScreen03Profile> with TickerProv
                                 child: _buildInputField(
                                   label: 'FIRST NAME',
                                   controller: _firstNameController,
+                                  hintText: 'Enter first name',
                                 ),
                               ),
                               
@@ -163,6 +333,7 @@ class _BmsScreen03ProfileState extends State<BmsScreen03Profile> with TickerProv
                                 child: _buildInputField(
                                   label: 'LAST NAME',
                                   controller: _lastNameController,
+                                  hintText: 'Enter last name',
                                 ),
                               ),
                             ],
@@ -174,10 +345,13 @@ class _BmsScreen03ProfileState extends State<BmsScreen03Profile> with TickerProv
                           _buildInputField(
                             label: 'DATE OF BIRTH',
                             controller: _dobController,
+                            hintText: 'Select date',
                             hasIcon: true,
+                            readOnly: true,
+                            onTap: _selectDate,
                           ),
                           
-                          const Spacer(),
+                          const SizedBox(height: 40),
                           
                           // Continue button
                           SizedBox(
@@ -214,7 +388,6 @@ class _BmsScreen03ProfileState extends State<BmsScreen03Profile> with TickerProv
                                 'Continue',
                                 style: TextStyle(
                                   fontSize: 16,
-                                  fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -239,82 +412,67 @@ class _BmsScreen03ProfileState extends State<BmsScreen03Profile> with TickerProv
     return Container(
       width: double.infinity,
       height: 104.02,
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Stack(
         children: [
           // Status bar
           Positioned(
             left: 0,
             top: 0,
-            child: Container(
-              width: 390.09,
-              height: 45.77,
-              child: Stack(
-                children: [
-                  // Time
-                  Positioned(
-                    left: 21.84,
-                    top: 13.52,
-                    child: Container(
-                      width: 56.17,
-                      height: 21.84,
-                      child: const Center(
-                        child: Text(
-                          '9:41',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.56,
-                            fontFamily: 'SF Pro Text',
-                            fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: TextAlign.center,
+            right: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Time
+                const Text(
+                  '9:41',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.56,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                
+                // Battery icons
+                Row(
+                  children: [
+                    const Icon(Icons.signal_cellular_4_bar, color: Colors.white, size: 16),
+                    const SizedBox(width: 4),
+                    const Icon(Icons.wifi, color: Colors.white, size: 16),
+                    const SizedBox(width: 4),
+                    Container(
+                      width: 22.89,
+                      height: 11.79,
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                          side: const BorderSide(width: 1.04, color: Colors.white),
+                          borderRadius: BorderRadius.circular(2.77),
+                        ),
+                      ),
+                      child: Container(
+                        margin: const EdgeInsets.all(1),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(1.39)),
                         ),
                       ),
                     ),
-                  ),
-                  
-                  // Battery
-                  Positioned(
-                    right: 16,
-                    top: 18,
-                    child: Row(
-                      children: [
-                        Icon(Icons.signal_cellular_4_bar, color: Colors.white, size: 16),
-                        const SizedBox(width: 4),
-                        Icon(Icons.wifi, color: Colors.white, size: 16),
-                        const SizedBox(width: 4),
-                        Container(
-                          width: 22.89,
-                          height: 11.79,
-                          decoration: ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(width: 1.04, color: Colors.white),
-                              borderRadius: BorderRadius.circular(2.77),
-                            ),
-                          ),
-                          child: Container(
-                            margin: const EdgeInsets.all(1),
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.all(Radius.circular(1.39)),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              ],
             ),
           ),
           
           // Back button
           Positioned(
-            left: 24.97,
+            left: 4,
             top: 62.41,
             child: GestureDetector(
               onTap: () {
                 HapticFeedback.lightImpact();
-                Navigator.of(context).pop();
+                if (Navigator.canPop(context)) {
+                  Navigator.of(context).pop();
+                }
               },
               child: Container(
                 width: 40,
@@ -341,57 +499,73 @@ class _BmsScreen03ProfileState extends State<BmsScreen03Profile> with TickerProv
   Widget _buildInputField({
     required String label,
     required TextEditingController controller,
+    String? hintText,
     bool hasIcon = false,
+    bool readOnly = false,
+    VoidCallback? onTap,
   }) {
-    return Container(
-      width: double.infinity,
-      height: 58,
-      decoration: const ShapeDecoration(
-        color: Color(0xFFF9FAFB),
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-            width: 1.04,
-            color: Color(0xFFE5E6EB),
+    return GestureDetector(
+      onTap: readOnly ? onTap : null,
+      child: Container(
+        height: 58,
+        decoration: const ShapeDecoration(
+          color: Color(0xFFF9FAFB),
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              width: 1.04,
+              color: Color(0xFFE5E6EB),
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(8.32)),
           ),
-          borderRadius: BorderRadius.all(Radius.circular(8.32)),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.64),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               label,
               style: const TextStyle(
                 color: Color(0xFF9EA3AE),
-                fontSize: 11,
-                fontFamily: 'Poppins',
+                fontSize: 10,
                 fontWeight: FontWeight.w500,
-                height: 1.09,
                 letterSpacing: 1,
+                height: 1.0,
               ),
             ),
             const SizedBox(height: 2),
             Row(
               children: [
                 Expanded(
-                  child: Text(
-                    controller.text,
+                  child: TextField(
+                    controller: controller,
+                    readOnly: readOnly,
                     style: const TextStyle(
                       color: Colors.black,
-                      fontSize: 16,
-                      fontFamily: 'Poppins',
+                      fontSize: 15,
                       fontWeight: FontWeight.w500,
-                      height: 1.50,
+                      height: 1.2,
                     ),
+                    decoration: InputDecoration(
+                      hintText: hintText,
+                      hintStyle: const TextStyle(
+                        color: Color(0xFF9EA3AE),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      border: InputBorder.none,
+                      isDense: true,
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                    maxLines: 1,
                   ),
                 ),
                 if (hasIcon)
                   const Icon(
                     Icons.calendar_today,
                     color: Color(0xFF9EA3AE),
-                    size: 20,
+                    size: 18,
                   ),
               ],
             ),

@@ -46,20 +46,41 @@ class _BmsScreen04GenderState extends State<BmsScreen04Gender> with TickerProvid
         opacity: _fadeAnimation,
         child: Stack(
           children: [
-            // Background circle
-            Positioned(
-              left: -135.23,
-              top: -95.70,
-              child: Opacity(
-                opacity: 0.08,
-                child: Container(
-                  width: 282.94,
-                  height: 282.94,
-                  decoration: const ShapeDecoration(
-                    color: Color(0xFF94EA01),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(141.47)),
+            // Background image
+            Positioned.fill(
+              child: Image.asset(
+                'assets/images/screens/starting screens background.png',
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Color(0xFF000000),
+                          Color(0xFF0A0A0A),
+                          Color(0xFF1A1F1A),
+                          Color(0xFF2A3A2A),
+                        ],
+                      ),
                     ),
+                  );
+                },
+              ),
+            ),
+
+            // Dark overlay for better text readability
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.black.withOpacity(0.3),
+                      Colors.black.withOpacity(0.5),
+                    ],
                   ),
                 ),
               ),
@@ -371,72 +392,65 @@ class _BmsScreen04GenderState extends State<BmsScreen04Gender> with TickerProvid
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
             side: BorderSide(
-              width: 1,
+              width: isSelected ? 2 : 1,
               strokeAlign: BorderSide.strokeAlignOutside,
-              color: const Color(0xFFE0E0E0),
+              color: isSelected ? const Color(0xFF94EA01) : const Color(0xFFE0E0E0),
             ),
             borderRadius: BorderRadius.circular(8),
           ),
         ),
         child: Stack(
           children: [
-            // Background opacity overlay for unselected state
-            if (!isSelected && gender == 'Male')
-              Positioned(
-                left: 0,
-                top: 0,
-                child: Opacity(
-                  opacity: 0.20,
-                  child: Container(
-                    width: 158,
-                    height: 228,
-                    decoration: const ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(6.24)),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            
-            // Gender label
+            // Background image
             Positioned(
-              left: gender == 'Male' ? 59.25 : 47.82,
-              top: gender == 'Male' ? 16.13 : 18.73,
-              child: Text(
-                gender,
-                style: TextStyle(
-                  color: isSelected && gender == 'Male' 
-                    ? const Color(0xFF94EA01) 
-                    : const Color(0xFFBDBDBD),
-                  fontSize: 16,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
-                  height: 1.50,
+              left: gender == 'Male' ? 0 : -18,
+              top: gender == 'Male' ? 0 : 44,
+              child: Opacity(
+                opacity: isSelected ? 1.0 : 0.5,
+                child: Image.asset(
+                  gender == 'Male'
+                      ? 'assets/images/screens/Male_profile_pic.png'
+                      : 'assets/images/screens/female_profile_pic.png',
+                  width: gender == 'Male' ? 158 : 190,
+                  height: gender == 'Male' ? 228 : 256,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      width: gender == 'Male' ? 158 : 190,
+                      height: gender == 'Male' ? 228 : 256,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          gender == 'Male' ? Icons.male : Icons.female,
+                          size: 64,
+                          color: Colors.white54,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
             
-            // Image placeholder
+            // Gender label
             Positioned(
-              left: gender == 'Male' ? 0.04 : -18.01,
-              top: gender == 'Male' ? 0.13 : 44.13,
-              child: Container(
-                width: gender == 'Male' ? 158 : 190,
-                height: gender == 'Male' ? 228 : 256,
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Center(
-                  child: Text(
-                    '${gender.toUpperCase()}\nIMAGE\nHERE',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white54,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                    ),
+              left: 0,
+              right: 0,
+              top: 16,
+              child: Center(
+                child: Text(
+                  gender,
+                  style: TextStyle(
+                    color: isSelected
+                        ? const Color(0xFF94EA01)
+                        : const Color(0xFFBDBDBD),
+                    fontSize: 16,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w600,
+                    height: 1.50,
                   ),
                 ),
               ),

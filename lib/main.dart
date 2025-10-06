@@ -7,6 +7,11 @@ import 'screens/bms_screen_improved.dart';
 import 'screens/bms_welcome_screen.dart';
 import 'screens/enhanced_auth_screen.dart';
 import 'screens/bms_screen_07_dashboard.dart';
+import 'screens/product_detail_screen.dart';
+import 'screens/cart_screen.dart';
+import 'screens/address_screen.dart';
+import 'screens/payment_screen.dart';
+import 'screens/payment_success_screen.dart';
 import 'services/user_service.dart';
 import 'services/onboarding_data.dart';
 
@@ -36,6 +41,15 @@ class BmsApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: const AuthStateWrapper(),
+      routes: {
+        '/dashboard': (context) => const BmsScreen07Dashboard(),
+        '/product': (context) => const ProductDetailScreen(),
+        '/cart': (context) => const CartScreen(),
+        '/checkout': (context) => const CartScreen(),
+        '/address': (context) => const AddressScreen(),
+        '/payment': (context) => const PaymentScreen(),
+        '/success': (context) => const PaymentSuccessScreen(),
+      },
     );
   }
 }
