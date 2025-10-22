@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../services/google_auth_service.dart';
-import 'clean_auth_screen.dart';
+import 'bms_login_screen.dart';
 
 class BMSWelcomeScreen extends StatefulWidget {
   const BMSWelcomeScreen({super.key});
@@ -82,30 +82,45 @@ class _BMSWelcomeScreenState extends State<BMSWelcomeScreen>
         width: double.infinity,
         height: double.infinity,
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF000000),
-              Color(0xFF1A1A1A),
-              Color(0xFF94EA01),
-            ],
-            stops: [0.2, 0.6, 1.0],
-          ),
+          color: Colors.black,  // Simple black background
         ),
         child: Stack(
           children: [
-            // Background overlay
+            // Main background image - full screen background
+            Positioned.fill(
+              child: Image.asset(
+                'assets/images/screens/main_person.png',
+                fit: BoxFit.cover,  // Cover entire screen
+                alignment: Alignment.center,  // Center the image
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Color(0xFF1A1A1A),
+                          Color(0xFF2A3A2A),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            
+            // Subtle overlay for better contrast with UI elements
             Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color(0xFF000000),
-                    Color(0x80000000),
-                    Color(0x4094EA01),
+                    Colors.black.withOpacity(0.2),
+                    Colors.black.withOpacity(0.3),
+                    Colors.black.withOpacity(0.6),
                   ],
+                  stops: const [0.0, 0.5, 1.0],
                 ),
               ),
             ),
@@ -120,21 +135,18 @@ class _BMSWelcomeScreenState extends State<BMSWelcomeScreen>
                 position: _slideAnimation,
                 child: Column(
                   children: [
-                    const SizedBox(height: 120),
+                    const SizedBox(height: 60),
                     
                     // Logo area
                     _buildLogo(),
                     
-                    const SizedBox(height: 60),
+                    const SizedBox(height: 40),
                     
-                    // Chat bubbles and main person
+                    // Chat bubbles and main content
                     Expanded(
                       child: Stack(
                         children: [
-                          // Main person silhouette
-                          _buildMainPersonSilhouette(),
-                          
-                          // Chat bubbles
+                          // Chat bubbles with profile images
                           _buildChatBubbles(),
                           
                           // Central message
@@ -212,113 +224,91 @@ class _BMSWelcomeScreenState extends State<BMSWelcomeScreen>
       builder: (context, child) {
         return Transform.scale(
           scale: _pulseAnimation.value,
-          child: Container(
-            width: 150,
-            height: 52,
-            decoration: BoxDecoration(
-              color: const Color(0xFF94EA01).withOpacity(0.2),
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                color: const Color(0xFF94EA01),
-                width: 2,
-              ),
-            ),
-            child: const Center(
-              child: Text(
-                'BMS GAMING HUB',
-                style: TextStyle(
-                  color: Color(0xFF94EA01),
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.2,
+          child: Image.asset(
+            'assets/images/screens/logo.png',
+            width: 192,
+            height: 67,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                width: 192,
+                height: 67,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF94EA01).withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: const Color(0xFF94EA01),
+                    width: 2,
+                  ),
                 ),
-              ),
-            ),
+                child: const Center(
+                  child: Text(
+                    'BOOK MY SPORTZ',
+                    style: TextStyle(
+                      color: Color(0xFF94EA01),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.2,
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
         );
       },
     );
   }
 
-  Widget _buildMainPersonSilhouette() {
-    return Positioned(
-      left: -50,
-      top: 50,
-      child: Container(
-        width: 300,
-        height: 400,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.transparent,
-              Colors.black.withOpacity(0.3),
-            ],
-          ),
-          borderRadius: BorderRadius.circular(200),
-        ),
-        child: const Center(
-          child: Icon(
-            Icons.person,
-            size: 200,
-            color: Color(0xFF94EA01),
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildChatBubbles() {
     return Stack(
       children: [
-        // Top left bubble - Green
+        // Top left bubble - Green "Lets play..."
         Positioned(
-          left: 60,
+          left: 30,
           top: 40,
           child: _buildChatBubble(
-            message: "Let's play...",
+            message: "Lets play...",
             color: const Color(0xFFA3FF05),
-            size: 35,
+            profileImage: 'assets/images/profile1.png',
             isLeft: true,
             delay: 0,
           ),
         ),
         
-        // Top right bubble - Yellow
+        // Top right bubble - Yellow "Lets play..."
         Positioned(
-          right: 40,
-          top: 20,
+          right: 30,
+          top: 80,
           child: _buildChatBubble(
-            message: "Ready to game!",
+            message: "Lets play...",
             color: const Color(0xFFFFC403),
-            size: 45,
+            profileImage: 'assets/images/profile2.png',
             isLeft: false,
             delay: 300,
           ),
         ),
         
-        // Middle left bubble - Orange
+        // Middle left bubble - Orange "I'm in."
         Positioned(
-          left: 30,
-          top: 180,
+          left: 20,
+          top: 170,
           child: _buildChatBubble(
-            message: "I'm in!",
+            message: "I'm in.",
             color: const Color(0xFFFF730F),
-            size: 40,
+            profileImage: 'assets/images/profile3.png',
             isLeft: true,
             delay: 600,
           ),
         ),
         
-        // Bottom right bubble - Red
+        // Bottom right bubble - Pink "I'm in."
         Positioned(
-          right: 30,
-          top: 250,
+          right: 20,
+          top: 290,
           child: _buildChatBubble(
-            message: "Count me in",
+            message: "I'm in.",
             color: const Color(0xFFFF0F3B),
-            size: 38,
+            profileImage: 'assets/images/profile4.png',
             isLeft: false,
             delay: 900,
           ),
@@ -330,7 +320,7 @@ class _BMSWelcomeScreenState extends State<BMSWelcomeScreen>
   Widget _buildChatBubble({
     required String message,
     required Color color,
-    required double size,
+    required String profileImage,
     required bool isLeft,
     required int delay,
   }) {
@@ -343,17 +333,15 @@ class _BMSWelcomeScreenState extends State<BMSWelcomeScreen>
           child: Column(
             crossAxisAlignment: isLeft ? CrossAxisAlignment.start : CrossAxisAlignment.end,
             children: [
-              // Avatar
+              // Avatar with profile image
               Container(
-                width: size,
-                height: size,
+                width: 50,
+                height: 50,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                    colors: [
-                      color.withOpacity(0.8),
-                      color,
-                    ],
+                  border: Border.all(
+                    color: color,
+                    width: 3,
                   ),
                   boxShadow: [
                     BoxShadow(
@@ -363,10 +351,28 @@ class _BMSWelcomeScreenState extends State<BMSWelcomeScreen>
                     ),
                   ],
                 ),
-                child: Icon(
-                  Icons.person_rounded,
-                  color: Colors.white,
-                  size: size * 0.5,
+                child: ClipOval(
+                  child: Image.asset(
+                    profileImage,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              color.withOpacity(0.8),
+                              color,
+                            ],
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.person_rounded,
+                          color: Colors.white,
+                          size: 25,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
               
@@ -375,7 +381,7 @@ class _BMSWelcomeScreenState extends State<BMSWelcomeScreen>
               // Message bubble
               Container(
                 constraints: const BoxConstraints(maxWidth: 100),
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
                   color: color,
                   borderRadius: BorderRadius.only(
@@ -396,7 +402,7 @@ class _BMSWelcomeScreenState extends State<BMSWelcomeScreen>
                   message,
                   style: const TextStyle(
                     color: Colors.black,
-                    fontSize: 10,
+                    fontSize: 11,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -412,7 +418,7 @@ class _BMSWelcomeScreenState extends State<BMSWelcomeScreen>
     return Positioned(
       left: 0,
       right: 0,
-      top: 320,
+      bottom: 200,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 60),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -455,12 +461,7 @@ class _BMSWelcomeScreenState extends State<BMSWelcomeScreen>
                   width: double.infinity,
                   height: 58,
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFF94EA01),
-                        Color(0xFFA1FF00),
-                      ],
-                    ),
+                    color: const Color(0xFF94EA01),
                     borderRadius: BorderRadius.circular(8),
                     boxShadow: [
                       BoxShadow(
@@ -479,7 +480,7 @@ class _BMSWelcomeScreenState extends State<BMSWelcomeScreen>
                         
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
-                            builder: (context) => const CleanAuthScreen(),
+                            builder: (context) => const BmsLoginScreen(),
                           ),
                         );
                       },
@@ -508,7 +509,7 @@ class _BMSWelcomeScreenState extends State<BMSWelcomeScreen>
               HapticFeedback.lightImpact();
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => const CleanAuthScreen(),
+                  builder: (context) => const BmsLoginScreen(),
                 ),
               );
             },

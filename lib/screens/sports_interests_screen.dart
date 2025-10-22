@@ -16,67 +16,67 @@ class _SportsInterestsScreenState extends State<SportsInterestsScreen>
   late AnimationController _staggerController;
   late Animation<double> _fadeAnimation;
 
-  List<int> selectedIndices = [0, 1]; // Pre-select Cricket and Football
+  List<int> selectedIndices = []; // Start with no sports selected
 
   // 10 Popular Sports with images
   final List<Map<String, dynamic>> sports = [
     {
       'name': 'Cricket',
-      'image': 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=400&h=400&fit=crop&crop=center',
+      'image': 'assets/images/screens/Cricket.png',
       'gradient': [Color(0xFF4CAF50), Color(0xFF2E7D32)],
       'description': 'The gentleman\'s game'
     },
     {
       'name': 'Football',
-      'image': 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&h=400&fit=crop&crop=center',
+      'image': 'assets/images/screens/football.png',
       'gradient': [Color(0xFF4CAF50), Color(0xFF388E3C)],
       'description': 'The beautiful game'
     },
     {
       'name': 'Basketball',
-      'image': 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=400&h=400&fit=crop&crop=center',
+      'image': 'assets/images/screens/BasketBall.png',
       'gradient': [Color(0xFFFF9800), Color(0xFFE65100)],
       'description': 'High-flying action'
     },
     {
       'name': 'Tennis',
-      'image': 'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=400&h=400&fit=crop&crop=center',
+      'image': 'assets/images/screens/Tennis.png',
       'gradient': [Color(0xFF2196F3), Color(0xFF0D47A1)],
       'description': 'Precision and power'
     },
     {
       'name': 'Volleyball',
-      'image': 'https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?w=400&h=400&fit=crop&crop=center',
+      'image': 'assets/images/screens/VolleyBall.png',
       'gradient': [Color(0xFFFFC107), Color(0xFFF57F17)],
       'description': 'Spike and serve'
     },
     {
       'name': 'Swimming',
-      'image': 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=400&h=400&fit=crop&crop=center',
+      'image': 'assets/images/screens/Swimming.png',
       'gradient': [Color(0xFF03A9F4), Color(0xFF01579B)],
       'description': 'Aquatic excellence'
     },
     {
       'name': 'Badminton',
-      'image': 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?w=400&h=400&fit=crop&crop=center',
+      'image': 'assets/images/screens/Badminton.png',
       'gradient': [Color(0xFF00BCD4), Color(0xFF006064)],
       'description': 'Shuttle sport'
     },
     {
       'name': 'Hockey',
-      'image': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&crop=center',
+      'image': 'assets/images/screens/Hockey.png',
       'gradient': [Color(0xFF607D8B), Color(0xFF263238)],
       'description': 'Ice and field'
     },
     {
       'name': 'Running',
-      'image': 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop&crop=center',
+      'image': 'assets/images/screens/Running.png',
       'gradient': [Color(0xFFE91E63), Color(0xFF880E4F)],
       'description': 'Track and field'
     },
     {
       'name': 'Golf',
-      'image': 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=400&h=400&fit=crop&crop=center',
+      'image': 'assets/images/screens/Golf.png',
       'gradient': [Color(0xFF4CAF50), Color(0xFF1B5E20)],
       'description': 'Precision sport'
     },
@@ -116,9 +116,7 @@ class _SportsInterestsScreenState extends State<SportsInterestsScreen>
   void _toggleSelection(int index) {
     setState(() {
       if (selectedIndices.contains(index)) {
-        if (selectedIndices.length > 2) { // Keep minimum 2 selected
-          selectedIndices.remove(index);
-        }
+        selectedIndices.remove(index);
       } else {
         selectedIndices.add(index);
       }
@@ -142,7 +140,7 @@ class _SportsInterestsScreenState extends State<SportsInterestsScreen>
         return Transform.translate(
           offset: Offset(0, 50 * (1 - animationValue)),
           child: Opacity(
-            opacity: animationValue,
+            opacity: animationValue.clamp(0.0, 1.0),  // Ensure opacity is always valid
             child: GestureDetector(
               onTap: () => _toggleSelection(index),
               child: AnimatedContainer(
@@ -150,134 +148,118 @@ class _SportsInterestsScreenState extends State<SportsInterestsScreen>
                 curve: Curves.easeInOut,
                 margin: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  gradient: isSelected
-                      ? LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: sport['gradient'],
-                        )
-                      : null,
-                  color: isSelected ? null : Colors.grey.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(12),
                   border: Border.all(
                     color: isSelected
                         ? const Color(0xFF94EA01)
-                        : Colors.grey.withOpacity(0.3),
-                    width: isSelected ? 2 : 1,
+                        : Colors.transparent,
+                    width: isSelected ? 3 : 0,
                   ),
                   boxShadow: isSelected ? [
-                    BoxShadow(
-                      color: sport['gradient'][0].withOpacity(0.3),
-                      blurRadius: 12,
-                      offset: const Offset(0, 6),
+                    const BoxShadow(
+                      color: Color(0x6694EA01),  // Green with 40% opacity
+                      blurRadius: 15,
+                      offset: Offset(0, 5),
                     ),
                   ] : null,
                 ),
-                child: Stack(
-                  children: [
-                    // Background pattern
-                    if (isSelected)
-                      Positioned.fill(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(14),
-                          child: Container(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      // Sport image - fills entire card
+                      Image.asset(
+                        sport['image'],
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
+                                colors: sport['gradient'],
+                              ),
+                            ),
+                            child: const Icon(
+                              Icons.sports,
+                              size: 48,
+                              color: Color(0xB3FFFFFF),  // White with 70% opacity
+                            ),
+                          );
+                        },
+                      ),
+
+                      // Dark overlay for unselected cards
+                      if (!isSelected)
+                        Container(
+                          decoration: const BoxDecoration(
+                            color: Color(0x80000000),  // Black with 50% opacity
+                          ),
+                        ),
+
+                      // Sport name overlay (shown when selected)
+                      if (isSelected)
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 10,
+                            ),
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
                                 colors: [
-                                  Colors.white.withOpacity(0.1),
-                                  Colors.transparent,
+                                  Color(0x00000000),  // Transparent
+                                  Color(0xB3000000),  // Black with 70% opacity
+                                  Color(0xE6000000),  // Black with 90% opacity
                                 ],
                               ),
                             ),
-                          ),
-                        ),
-                      ),
-
-                    // Content
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: isSelected
-                                  ? Colors.white.withOpacity(0.2)
-                                  : Colors.white.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.network(
-                                sport['image'],
-                                width: 40,
-                                height: 40,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Icon(
-                                    Icons.sports,
-                                    size: 32,
-                                    color: isSelected ? Colors.white : Colors.white70,
-                                  );
-                                },
+                            child: Text(
+                              sport['name'],
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
+                        ),
 
-                          const SizedBox(height: 12),
-
-                          Text(
-                            sport['name'],
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: isSelected ? Colors.white : Colors.white70,
-                              fontSize: 14,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
+                      // Selection checkmark (top-right corner)
+                      if (isSelected)
+                        Positioned(
+                          top: 8,
+                          right: 8,
+                          child: Container(
+                            width: 28,
+                            height: 28,
+                            decoration: const BoxDecoration(
+                              color: Color(0xFF94EA01),
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0x4D000000),  // Black with 30% opacity
+                                  blurRadius: 4,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
                             ),
-                          ),
-
-                          const SizedBox(height: 4),
-
-                          Text(
-                            sport['description'],
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: isSelected ? Colors.white70 : Colors.white54,
-                              fontSize: 11,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
+                            child: const Icon(
+                              Icons.check,
+                              color: Colors.black,
+                              size: 18,
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    // Selection indicator
-                    if (isSelected)
-                      Positioned(
-                        top: 8,
-                        right: 8,
-                        child: Container(
-                          width: 24,
-                          height: 24,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF94EA01),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Icon(
-                            Icons.check,
-                            color: Colors.black,
-                            size: 16,
                           ),
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -293,7 +275,50 @@ class _SportsInterestsScreenState extends State<SportsInterestsScreen>
       backgroundColor: const Color(0xFF151515),
       body: FadeTransition(
         opacity: _fadeAnimation,
-        child: SafeArea(
+        child: Stack(
+          children: [
+            // Background image
+            Positioned.fill(
+              child: Image.asset(
+                'assets/images/screens/starting screens background.png',
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Color(0xFF000000),
+                          Color(0xFF0A0A0A),
+                          Color(0xFF1A1F1A),
+                          Color(0xFF2A3A2A),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            // Dark overlay for better text readability
+            Positioned.fill(
+              child: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0x4D000000),  // Black with 30% opacity
+                      Color(0x80000000),  // Black with 50% opacity
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            // Content
+            SafeArea(
           child: Column(
             children: [
               // Header
@@ -309,7 +334,7 @@ class _SportsInterestsScreenState extends State<SportsInterestsScreen>
                       child: Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.1),
+                          color: const Color(0x1AFFFFFF),  // White with 10% opacity
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: const Icon(
@@ -354,9 +379,9 @@ class _SportsInterestsScreenState extends State<SportsInterestsScreen>
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Select your favorite sports to get personalized recommendations and find players near you',
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.7),
+                      'Select at least 2 sports to get personalized recommendations and find players near you',
+                      style: const TextStyle(
+                        color: Color(0xB3FFFFFF),  // White with 70% opacity
                         fontSize: 16,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w400,
@@ -367,16 +392,24 @@ class _SportsInterestsScreenState extends State<SportsInterestsScreen>
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF94EA01).withOpacity(0.1),
+                        color: selectedIndices.length >= 2
+                            ? const Color(0x1A94EA01)  // Green with 10% opacity
+                            : const Color(0x1AFF0000),  // Red with 10% opacity
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: const Color(0xFF94EA01).withOpacity(0.3),
+                          color: selectedIndices.length >= 2
+                              ? const Color(0x4D94EA01)  // Green with 30% opacity
+                              : const Color(0x4DFF0000),  // Red with 30% opacity
                         ),
                       ),
                       child: Text(
-                        'Minimum 2 sports required • ${selectedIndices.length} selected',
-                        style: const TextStyle(
-                          color: Color(0xFF94EA01),
+                        selectedIndices.length >= 2
+                            ? '${selectedIndices.length} sports selected ✓'
+                            : 'Select at least 2 sports • ${selectedIndices.length} selected',
+                        style: TextStyle(
+                          color: selectedIndices.length >= 2
+                              ? const Color(0xFF94EA01)
+                              : const Color(0xFFFF6B6B),
                           fontSize: 12,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w500,
@@ -397,9 +430,9 @@ class _SportsInterestsScreenState extends State<SportsInterestsScreen>
                     physics: const BouncingScrollPhysics(),
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                      childAspectRatio: 0.9,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
+                      childAspectRatio: 0.85,
                     ),
                     itemCount: sports.length,
                     itemBuilder: (context, index) => _buildSportCard(index),
@@ -463,33 +496,41 @@ class _SportsInterestsScreenState extends State<SportsInterestsScreen>
                     style: ElevatedButton.styleFrom(
                       backgroundColor: selectedIndices.length >= 2
                           ? const Color(0xFF94EA01)
-                          : Colors.grey.withOpacity(0.3),
+                          : const Color(0xFF2A2A2A),
                       foregroundColor: selectedIndices.length >= 2
                           ? Colors.black
-                          : Colors.white54,
+                          : Colors.white38,
                       elevation: selectedIndices.length >= 2 ? 6 : 0,
-                      shadowColor: const Color(0xFF94EA01).withOpacity(0.3),
+                      shadowColor: const Color(0x4D94EA01),  // Green with 30% opacity
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
+                        side: selectedIndices.length >= 2
+                            ? BorderSide.none
+                            : const BorderSide(
+                                color: Color(0x1AFFFFFF),  // White with 10% opacity
+                                width: 1,
+                              ),
                       ),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
-                          'Book My Sports',
-                          style: TextStyle(
+                        Text(
+                          selectedIndices.length >= 2 ? 'Continue' : 'Select 2 Sports to Continue',
+                          style: const TextStyle(
                             fontSize: 16,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        const SizedBox(width: 8),
-                        Icon(
-                          Icons.sports_soccer,
-                          size: 20,
-                          color: selectedIndices.length >= 2 ? Colors.black : Colors.white54,
-                        ),
+                        if (selectedIndices.length >= 2) ...[
+                          const SizedBox(width: 8),
+                          Icon(
+                            Icons.arrow_forward,
+                            size: 20,
+                            color: Colors.black,
+                          ),
+                        ],
                       ],
                     ),
                   ),
@@ -497,6 +538,8 @@ class _SportsInterestsScreenState extends State<SportsInterestsScreen>
               ),
             ],
           ),
+        ),
+          ],
         ),
       ),
     );

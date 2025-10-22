@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'my_profile_screen.dart';
+import 'wallet_screen.dart';
+import 'nearbyplayers.dart';
 
 class BmsScreen07Dashboard extends StatefulWidget {
   const BmsScreen07Dashboard({super.key});
@@ -11,6 +13,22 @@ class BmsScreen07Dashboard extends StatefulWidget {
 
 class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
   int _currentIndex = 0;
+  double _balance = 1250.50;
+  List<Map<String, dynamic>> _transactions = [
+    {'id': 1, 'amount': '+₹50', 'type': 'Recharge', 'date': '2024-01-15'},
+    {'id': 2, 'amount': '-₹25', 'type': 'Booking Payment', 'date': '2024-01-14'},
+    {'id': 3, 'amount': '-₹100', 'type': 'Withdrawal', 'date': '2024-01-10'},
+    {'id': 4, 'amount': '+₹75', 'type': 'Recharge', 'date': '2024-01-05'},
+    {'id': 5, 'amount': '-₹30', 'type': 'Booking Payment', 'date': '2023-12-28'},
+    {'id': 6, 'amount': '-₹50', 'type': 'Withdrawal', 'date': '2023-12-20'},
+  ];
+
+  void _updateWalletData(double newBalance, List<Map<String, dynamic>> newTransactions) {
+    setState(() {
+      _balance = newBalance;
+      _transactions = newTransactions;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +44,7 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                 child: Column(
                   children: [
                     const SizedBox(height: 16),
-                    
+
                     // Header with greeting and icons
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,7 +79,8 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                             const SizedBox(height: 4),
                             Row(
                               children: [
-                                const Icon(Icons.location_on, color: Colors.white, size: 12),
+                                const Icon(Icons.location_on,
+                                    color: Colors.white, size: 12),
                                 const SizedBox(width: 4),
                                 const Text(
                                   'Hyderabad',
@@ -80,14 +99,16 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                           children: [
                             const Icon(Icons.search, color: Colors.white, size: 20),
                             const SizedBox(width: 11),
-                            const Icon(Icons.notifications_outlined, color: Colors.white, size: 20),
+                            const Icon(Icons.notifications_outlined,
+                                color: Colors.white, size: 20),
                             const SizedBox(width: 11),
                             GestureDetector(
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const MyProfileScreen(),
+                                    builder: (context) =>
+                                        const MyProfileScreen(),
                                   ),
                                 );
                               },
@@ -98,23 +119,25 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                                   color: Color(0xFFFAB301),
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(Icons.person, color: Colors.black, size: 16),
+                                child: const Icon(Icons.person,
+                                    color: Colors.black, size: 16),
                               ),
                             ),
                           ],
                         ),
                       ],
                     ),
-                    
+
                     const SizedBox(height: 20),
-                    
+
                     // Search bar
                     Container(
                       height: 37,
                       decoration: ShapeDecoration(
                         color: const Color(0x1EA9A9A9),
                         shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Colors.white.withOpacity(0.15)),
+                          side: BorderSide(
+                              width: 1, color: Colors.white.withOpacity(0.15)),
                           borderRadius: BorderRadius.circular(48),
                         ),
                       ),
@@ -130,13 +153,13 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                         ),
                       ),
                     ),
-                    
+
                     const SizedBox(height: 20),
                   ],
                 ),
               ),
             ),
-            
+
             // Feature cards grid
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -144,15 +167,39 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                 children: [
                   Row(
                     children: [
-                      Expanded(child: _buildFeatureCard('Nearby Players', 'See who\'s ready to play around you.', const Color(0xFF1358CF), const Color(0xFF0A2D69))),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => MainMapPage()),
+                            );
+                          },
+                          child: _buildFeatureCard(
+                              'Nearby Players',
+                              'See who\'s ready to play around you.',
+                              const Color(0xFF1358CF),
+                              const Color(0xFF0A2D69)),
+                        ),
+                      ),
                       const SizedBox(width: 16),
-                      Expanded(child: _buildFeatureCard('Host a Game', 'Create your match and invite players.', const Color(0xFF7CFE6A), const Color(0xFF004D40))),
+                      Expanded(
+                          child: _buildFeatureCard(
+                              'Host a Game',
+                              'Create your match and invite players.',
+                              const Color(0xFF7CFE6A),
+                              const Color(0xFF004D40))),
                     ],
                   ),
                   const SizedBox(height: 20),
                   Row(
                     children: [
-                      Expanded(child: _buildFeatureCard('My Bookings', 'All your games in one place.', const Color(0xFFFFD956), const Color(0xFFE86F00))),
+                      Expanded(
+                          child: _buildFeatureCard(
+                              'My Bookings',
+                              'All your games in one place.',
+                              const Color(0xFFFFD956),
+                              const Color(0xFFE86F00))),
                       const SizedBox(width: 16),
                       Expanded(child: _buildFeatureCard('Shop Here', 'Find everything you need for your next game.', const Color(0xFFFF9AA8), const Color(0xFF6F00CB))),
                     ],
@@ -160,34 +207,34 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 40),
-            
+
             // Carousel section
             _buildCarouselSection(),
-            
+
             const SizedBox(height: 40),
-            
+
             // Popular Near You section
             _buildSectionWithTitle('Popular Near You', const Color(0xFF3BE8B0)),
-            
+
             const SizedBox(height: 40),
-            
-            // Nearby Games section  
+
+            // Nearby Games section
             _buildSectionWithTitle('Nearby Games', const Color(0xFF3BF8D2)),
-            
+
             const SizedBox(height: 40),
-            
+
             // Hire Professional section
             _buildHireProfessionalSection(),
-            
+
             const SizedBox(height: 40),
-            
+
             // Social feed section
             _buildSocialFeedSection(),
-            
+
             const SizedBox(height: 40),
-            
+
             // Community button
             Container(
               width: double.infinity,
@@ -195,7 +242,8 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
               margin: const EdgeInsets.symmetric(horizontal: 16),
               decoration: ShapeDecoration(
                 color: const Color(0xFFBFD962),
-                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(4))),
               ),
               child: const Center(
                 child: Text(
@@ -209,9 +257,9 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 40),
-            
+
             // Footer text
             Text(
               'Make with ❤️  in Hyderabad',
@@ -222,7 +270,7 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            
+
             const SizedBox(height: 100), // Space for bottom navigation
           ],
         ),
@@ -231,7 +279,8 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
     );
   }
 
-  Widget _buildFeatureCard(String title, String description, Color startColor, Color endColor) {
+  Widget _buildFeatureCard(
+      String title, String description, Color startColor, Color endColor) {
     return Container(
       width: 166.27,
       height: 80,
@@ -295,7 +344,8 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
             margin: const EdgeInsets.symmetric(horizontal: 16),
             decoration: ShapeDecoration(
               color: Colors.grey.withOpacity(0.3),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
             ),
             child: const Center(
               child: Text(
@@ -365,7 +415,8 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                   height: double.infinity,
                   decoration: ShapeDecoration(
                     color: Colors.grey.withOpacity(0.3),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.64)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.64)),
                   ),
                   child: const Center(
                     child: Text(
@@ -592,14 +643,30 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
               height: 36,
               decoration: const ShapeDecoration(
                 color: Color(0xFF0E0E0E),
-                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(4))),
               ),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text('Like', style: TextStyle(color: Colors.white, fontSize: 8, fontFamily: 'Poppins', fontWeight: FontWeight.w500)),
-                  Text('Comment', style: TextStyle(color: Colors.white, fontSize: 8, fontFamily: 'Poppins', fontWeight: FontWeight.w500)),
-                  Text('Share', style: TextStyle(color: Colors.white, fontSize: 8, fontFamily: 'Poppins', fontWeight: FontWeight.w500)),
+                  Text('Like',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 8,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500)),
+                  Text('Comment',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 8,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500)),
+                  Text('Share',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 8,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500)),
                 ],
               ),
             ),

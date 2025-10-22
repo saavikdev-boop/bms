@@ -57,20 +57,41 @@ class _BmsScreen06LoadingState extends State<BmsScreen06Loading>
       backgroundColor: const Color(0xFF151515),
       body: Stack(
         children: [
-          // Background circle
-          Positioned(
-            left: -135.23,
-            top: -95.70,
-            child: Opacity(
-              opacity: 0.08,
-              child: Container(
-                width: 282.94,
-                height: 282.94,
-                decoration: const ShapeDecoration(
-                  color: Color(0xFF94EA01),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(141.47)),
+          // Background image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/screens/starting screens background.png',
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color(0xFF000000),
+                        Color(0xFF0A0A0A),
+                        Color(0xFF1A1F1A),
+                        Color(0xFF2A3A2A),
+                      ],
+                    ),
                   ),
+                );
+              },
+            ),
+          ),
+
+          // Dark overlay for better text readability
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black.withOpacity(0.3),
+                    Colors.black.withOpacity(0.5),
+                  ],
                 ),
               ),
             ),
