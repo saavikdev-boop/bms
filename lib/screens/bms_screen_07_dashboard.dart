@@ -3,6 +3,9 @@ import 'package:flutter/services.dart';
 import 'my_profile_screen.dart';
 import 'wallet_screen.dart';
 import 'nearbyplayers.dart';
+import 'host_game_screen.dart';
+import 'ecommerce_home_screen.dart';
+import 'my_bookings_screen.dart';
 
 class BmsScreen07Dashboard extends StatefulWidget {
   const BmsScreen07Dashboard({super.key});
@@ -184,11 +187,22 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                       ),
                       const SizedBox(width: 16),
                       Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const HostGameScreen(),
+                              ),
+                            );
+                          },
                           child: _buildFeatureCard(
                               'Host a Game',
                               'Create your match and invite players.',
                               const Color(0xFF7CFE6A),
-                              const Color(0xFF004D40))),
+                              const Color(0xFF004D40)),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -201,7 +215,23 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                               const Color(0xFFFFD956),
                               const Color(0xFFE86F00))),
                       const SizedBox(width: 16),
-                      Expanded(child: _buildFeatureCard('Shop Here', 'Find everything you need for your next game.', const Color(0xFFFF9AA8), const Color(0xFF6F00CB))),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ECommerceHomeScreen(),
+                              ),
+                            );
+                          },
+                          child: _buildFeatureCard(
+                              'Shop Here',
+                              'Find everything you need for your next game.',
+                              const Color(0xFFFF9AA8),
+                              const Color(0xFF6F00CB)),
+                        ),
+                      ),
                     ],
                   ),
                 ],

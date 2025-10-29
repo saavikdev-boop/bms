@@ -3,10 +3,21 @@
     
     <!-- Internet permission for Google Sign-In -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    
+    <!-- Location permissions for Google Maps -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    
    <application
         android:label="flutter_phone_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        
+        <!-- Google Maps API Key - REPLACE YOUR_API_KEY_HERE with your actual key -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="YAIzaSyD81ZLEH2vxtKuq_f8Wh-OtngNJfhDTnvA"/>
+        
         <activity
             android:name=".MainActivity"
             android:exported="true"

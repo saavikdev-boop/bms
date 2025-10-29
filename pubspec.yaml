@@ -16,6 +16,10 @@ dependencies:
   cloud_firestore: ^4.17.0
   shared_preferences: ^2.2.2
   image_picker: ^1.0.7
+  # Google Maps packages
+  google_maps_flutter: ^2.5.0
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
 
 dev_dependencies:
   flutter_test:
@@ -29,4 +33,3 @@ flutter:
     - assets/images/
     - assets/images/screens/
     - assets/images/icons/
-    - assets/images/graphics/
