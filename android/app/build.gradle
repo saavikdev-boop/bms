@@ -60,7 +60,15 @@ android {
     }
 }
 
+// Force all dependencies to use the correct SDK version
+configurations.all {
+    resolutionStrategy {
+        force 'androidx.core:core:1.13.1'
+        force 'androidx.core:core-ktx:1.13.1'
+        force 'androidx.lifecycle:lifecycle-runtime:2.7.0'
+    }
+}
+
 flutter {
     source '../..'
 }
-
