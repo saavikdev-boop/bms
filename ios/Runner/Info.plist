@@ -52,5 +52,19 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to your photo library to select profile pictures and images.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs access to your camera to take photos.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app needs access to your microphone.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to your location to find nearby players.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs access to your location to find nearby players.</string>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>
