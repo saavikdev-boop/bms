@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_phone_app/screens/bookings.dart';
 import 'my_profile_screen.dart';
 import 'wallet_screen.dart';
 import 'nearbyplayers.dart';
+import 'host_game_screen.dart';
+import 'ecommerce_home_screen.dart';
+import 'my_bookings_screen.dart';
 
 class BmsScreen07Dashboard extends StatefulWidget {
   const BmsScreen07Dashboard({super.key});
@@ -16,14 +20,25 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
   double _balance = 1250.50;
   List<Map<String, dynamic>> _transactions = [
     {'id': 1, 'amount': '+₹50', 'type': 'Recharge', 'date': '2024-01-15'},
-    {'id': 2, 'amount': '-₹25', 'type': 'Booking Payment', 'date': '2024-01-14'},
+    {
+      'id': 2,
+      'amount': '-₹25',
+      'type': 'Booking Payment',
+      'date': '2024-01-14'
+    },
     {'id': 3, 'amount': '-₹100', 'type': 'Withdrawal', 'date': '2024-01-10'},
     {'id': 4, 'amount': '+₹75', 'type': 'Recharge', 'date': '2024-01-05'},
-    {'id': 5, 'amount': '-₹30', 'type': 'Booking Payment', 'date': '2023-12-28'},
+    {
+      'id': 5,
+      'amount': '-₹30',
+      'type': 'Booking Payment',
+      'date': '2023-12-28'
+    },
     {'id': 6, 'amount': '-₹50', 'type': 'Withdrawal', 'date': '2023-12-20'},
   ];
 
-  void _updateWalletData(double newBalance, List<Map<String, dynamic>> newTransactions) {
+  void _updateWalletData(
+      double newBalance, List<Map<String, dynamic>> newTransactions) {
     setState(() {
       _balance = newBalance;
       _transactions = newTransactions;
@@ -97,7 +112,8 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                         ),
                         Row(
                           children: [
-                            const Icon(Icons.search, color: Colors.white, size: 20),
+                            const Icon(Icons.search,
+                                color: Colors.white, size: 20),
                             const SizedBox(width: 11),
                             const Icon(Icons.notifications_outlined,
                                 color: Colors.white, size: 20),
@@ -184,24 +200,60 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                       ),
                       const SizedBox(width: 16),
                       Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const HostGameScreen(),
+                              ),
+                            );
+                          },
                           child: _buildFeatureCard(
                               'Host a Game',
                               'Create your match and invite players.',
                               const Color(0xFF7CFE6A),
-                              const Color(0xFF004D40))),
+                              const Color(0xFF004D40)),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 20),
                   Row(
                     children: [
                       Expanded(
-                          child: _buildFeatureCard(
-                              'My Bookings',
-                              'All your games in one place.',
-                              const Color(0xFFFFD956),
-                              const Color(0xFFE86F00))),
+                          child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => BookingsApp()),
+                                );
+                              },
+                              child: _buildFeatureCard(
+                                  'My Bookings',
+                                  'All your games in one place.',
+                                  const Color(0xFFFFD956),
+                                  const Color(0xFFE86F00)))),
                       const SizedBox(width: 16),
-                      Expanded(child: _buildFeatureCard('Shop Here', 'Find everything you need for your next game.', const Color(0xFFFF9AA8), const Color(0xFF6F00CB))),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const ECommerceHomeScreen(),
+                              ),
+                            );
+                          },
+                          child: _buildFeatureCard(
+                              'Shop Here',
+                              'Find everything you need for your next game.',
+                              const Color(0xFFFF9AA8),
+                              const Color(0xFF6F00CB)),
+                        ),
+                      ),
                     ],
                   ),
                 ],

@@ -57,9 +57,11 @@ class _MainMapPageState extends State<MainMapPage> {
                   child: Row(
                     children: [
                       CircleAvatar(
-                        backgroundImage:
-                            NetworkImage(sampleUsers[0]['avatar']!),
-                      ),
+                        backgroundImage: ResizeImage(
+                            AssetImage(sampleUsers[0]['avatar']!),
+                            width: 100,
+                            height: 100,
+                      )),
                       SizedBox(width: 12),
                       Expanded(
                           child: Container(
@@ -129,6 +131,8 @@ class _MainMapPageState extends State<MainMapPage> {
                 child: Image.asset(
                   'assets/images/map.png',
                   fit: BoxFit.cover,
+                  cacheWidth: 1080,
+                  cacheHeight: 1920,
                 ),
               ),
               // bottom overlay (avatars + add friends + bottom nav)
@@ -169,7 +173,11 @@ class _MainMapPageState extends State<MainMapPage> {
                               children: [
                                 CircleAvatar(
                                   radius: 24,
-                                  backgroundImage: NetworkImage(u['avatar']!),
+                                  backgroundImage: ResizeImage(
+                                    AssetImage(u['avatar']!),
+                                    width: 100,
+                                    height: 100,
+                                  ),
                                 ),
                                 SizedBox(height: 4),
                                 SizedBox(
@@ -562,7 +570,11 @@ class _FriendsPageState extends State<FriendsPage> {
               child: Row(
                 children: [
                   CircleAvatar(
-                    backgroundImage: AssetImage(friends[0].avatar),
+                    backgroundImage: ResizeImage(
+                        AssetImage(friends[0].avatar),
+                        width: 100,
+                        height: 100,
+                    ),
                     radius: 20,
                   ),
                   const SizedBox(width: 12),
@@ -634,7 +646,11 @@ class _FriendsPageState extends State<FriendsPage> {
                       contentPadding: const EdgeInsets.symmetric(
                           horizontal: 14, vertical: 6),
                       leading: CircleAvatar(
-                        backgroundImage: AssetImage(f.avatar),
+                        backgroundImage: ResizeImage(
+                            AssetImage(f.avatar),
+                            width: 100,
+                            height: 100,
+                        ),
                         radius: 26,
                         backgroundColor: Colors.white10,
                       ),

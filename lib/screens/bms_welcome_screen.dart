@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../services/google_auth_service.dart';
 import 'bms_login_screen.dart';
+import 'bms_screen_07_dashboard.dart';
 
 class BMSWelcomeScreen extends StatefulWidget {
   const BMSWelcomeScreen({super.key});
@@ -92,6 +93,8 @@ class _BMSWelcomeScreenState extends State<BMSWelcomeScreen>
                 'assets/images/screens/main_person.png',
                 fit: BoxFit.cover,  // Cover entire screen
                 alignment: Alignment.center,  // Center the image
+                cacheWidth: 1080,
+                cacheHeight: 1920,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
                     decoration: const BoxDecoration(
@@ -355,6 +358,8 @@ class _BMSWelcomeScreenState extends State<BMSWelcomeScreen>
                   child: Image.asset(
                     profileImage,
                     fit: BoxFit.cover,
+                    cacheWidth: 100,
+                    cacheHeight: 100,
                     errorBuilder: (context, error, stackTrace) {
                       return Container(
                         decoration: BoxDecoration(
@@ -509,7 +514,7 @@ class _BMSWelcomeScreenState extends State<BMSWelcomeScreen>
               HapticFeedback.lightImpact();
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => const BmsLoginScreen(),
+                  builder: (context) => const BmsScreen07Dashboard(),
                 ),
               );
             },
