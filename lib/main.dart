@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'firebase_options.dart';
 import 'screens/bms_screen_02_fixed.dart';
 import 'screens/bms_screen_improved.dart';
@@ -17,6 +18,15 @@ import 'services/onboarding_data.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Load environment variables from .env file
+  try {
+    await dotenv.load(fileName: ".env");
+  } catch (e) {
+    print('Failed to load .env file: $e');
+  }
+
+  // Initialize Firebase
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -24,6 +34,7 @@ void main() async {
   } catch (e) {
     print('Firebase initialization failed: $e');
   }
+
   runApp(const BmsApp());
 }
 

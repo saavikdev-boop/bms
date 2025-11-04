@@ -80,11 +80,7 @@ packages:
       sha256: "942a4791cd385a68ccb3b32c71c427aba508a1bb949b86dff2adbe4049f16239"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "0.3.5"
-=======
-    version: "0.3.4+2"
->>>>>>> origin/Vamshiz
   crypto:
     dependency: transitive
     description:
@@ -212,11 +208,7 @@ packages:
       sha256: "0ed0dc292e8f9ac50992e2394e9d336a0275b6ae400d64163fdf0a8a8b556c37"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "2.24.1"
-=======
-    version: "2.17.5"
->>>>>>> origin/Vamshiz
   fixnum:
     dependency: transitive
     description:
@@ -230,6 +222,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_dotenv:
+    dependency: "direct main"
+    description:
+      name: flutter_dotenv
+      sha256: b7c7be5cd9f6ef7a78429cabd2774d3c4af50e79cb2b7593e3d5d763ef95c61b
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.2.1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -708,11 +708,7 @@ packages:
       sha256: "254ee5351d6cb365c859e20ee823c3bb479bf4a293c22d17a9f1bf144ce86f7c"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "1.10.1"
-=======
-    version: "1.10.0"
->>>>>>> origin/Vamshiz
   sprintf:
     dependency: transitive
     description:
