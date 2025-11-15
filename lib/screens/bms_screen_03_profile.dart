@@ -415,54 +415,8 @@ class _BmsScreen03ProfileState extends State<BmsScreen03Profile> with TickerProv
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Stack(
         children: [
-          // Status bar
-          Positioned(
-            left: 0,
-            top: 0,
-            right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Time
-                const Text(
-                  '9:41',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.56,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                
-                // Battery icons
-                Row(
-                  children: [
-                    const Icon(Icons.signal_cellular_4_bar, color: Colors.white, size: 16),
-                    const SizedBox(width: 4),
-                    const Icon(Icons.wifi, color: Colors.white, size: 16),
-                    const SizedBox(width: 4),
-                    Container(
-                      width: 22.89,
-                      height: 11.79,
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(width: 1.04, color: Colors.white),
-                          borderRadius: BorderRadius.circular(2.77),
-                        ),
-                      ),
-                      child: Container(
-                        margin: const EdgeInsets.all(1),
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(1.39)),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          
+          // Status bar removed
+
           // Back button
           Positioned(
             left: 4,

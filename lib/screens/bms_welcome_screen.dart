@@ -128,9 +128,9 @@ class _BMSWelcomeScreenState extends State<BMSWelcomeScreen>
               ),
             ),
             
-            // Status bar
-            _buildStatusBar(),
-            
+            // Status bar removed
+            // _buildStatusBar(),
+
             // Main content
             FadeTransition(
               opacity: _fadeAnimation,

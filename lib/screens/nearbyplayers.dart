@@ -82,8 +82,13 @@ class _MainMapPageState extends State<MainMapPage> {
                         ),
                         child: Row(
                           children: [
-                            Icon(Icons.arrow_back,
-                                color: Colors.black, size: 24),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Icon(Icons.arrow_back,
+                                  color: Colors.black, size: 24),
+                            ),
                             SizedBox(width: 12),
                             Expanded(
                               child: Column(
@@ -243,32 +248,41 @@ class _MainMapPageState extends State<MainMapPage> {
               ),
               // bottom navigation bar
               Container(
-                height: 84,
-                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-                color: Color(0xFF050505),
+                height: 66,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment(0.57, 1.72),
+                    end: Alignment(0.58, -1.53),
+                    colors: [Colors.black, Color(0xFF151515)],
+                  ),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(56.28)),
+                ),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Expanded(
-                        child: _BottomNavButton(
-                            icon: Icons.home, label: 'Home', onTap: () {})),
-                    Expanded(
-                        child: _BottomNavButton(
-                            icon: Icons.play_circle_fill,
-                            label: 'Play',
-                            onTap: () {})),
-                    Expanded(
-                        child: _BottomNavButton(
-                            icon: Icons.circle_outlined,
-                            label: '',
-                            onTap: () {})),
-                    Expanded(
-                        child: _BottomNavButton(
-                            icon: Icons.person_search,
-                            label: 'Hire',
-                            onTap: () {})),
-                    Expanded(
-                        child: _BottomNavButton(
-                            icon: Icons.menu, label: 'More', onTap: () {})),
+                    _BottomNavButton(
+                        icon: Icons.home_outlined, label: 'Home', isSelected: false, onTap: () {}),
+                    _BottomNavButton(
+                        icon: Icons.sports_soccer_outlined,
+                        label: 'Play',
+                        isSelected: false,
+                        onTap: () {}),
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFD9D9D9),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.add, color: Colors.black, size: 24),
+                    ),
+                    _BottomNavButton(
+                        icon: Icons.person_outlined,
+                        label: 'Hire',
+                        isSelected: false,
+                        onTap: () {}),
+                    _BottomNavButton(
+                        icon: Icons.menu_outlined, label: 'More', isSelected: false, onTap: () {}),
                   ],
                 ),
               ),
@@ -444,19 +458,33 @@ class MyApp extends StatelessWidget {
 class _BottomNavButton extends StatelessWidget {
   final IconData icon;
   final String label;
+  final bool isSelected;
   final VoidCallback onTap;
   const _BottomNavButton(
-      {required this.icon, required this.label, required this.onTap});
+      {required this.icon, required this.label, required this.isSelected, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, size: 28, color: Colors.white70),
-          SizedBox(height: 6),
-          Text(label, style: TextStyle(fontSize: 11, color: Colors.white70)),
+          Icon(
+            icon,
+            color: isSelected ? const Color(0xFF94EA01) : Colors.white,
+            size: 22.89,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              color: isSelected ? const Color(0xFF94EA01) : Colors.white,
+              fontSize: 9.54,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w400,
+            ),
+          ),
         ],
       ),
     );
