@@ -23,7 +23,20 @@
       "Bash(\"C:\\Users\\shikhar pulluri\\Desktop\\flutter\\bin\\flutter.bat\" emulators)",
       "Bash(\"C:\\Users\\shikhar pulluri\\Desktop\\flutter\\bin\\flutter.bat\" emulators --launch Pixel_9)",
       "Bash(git remote set-url:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(flutter --version:*)",
+      "Bash(flutter doctor:*)",
+      "Bash(xcodebuild:*)",
+      "Bash(xcrun simctl:*)",
+      "Bash(sudo xcode-select:*)",
+      "Bash(sudo xcodebuild:*)",
+      "Bash(flutter create:*)",
+      "Bash(flutter devices:*)",
+      "Bash(flutter emulators:*)",
+      "Bash(pod --version:*)",
+      "Bash(pod install)",
+      "Bash(pod install:*)",
+      "Bash(flutter precache:*)"
     ],
     "deny": [],
     "ask": []
