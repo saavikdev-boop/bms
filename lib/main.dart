@@ -24,6 +24,7 @@ void main() async {
   // Load environment variables from .env file
   try {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     await dotenv.load(fileName: ".env");
   } catch (e) {
     print('Failed to load .env file: $e');
