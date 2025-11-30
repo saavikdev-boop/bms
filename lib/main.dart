@@ -16,50 +16,16 @@ import 'screens/payment_screen.dart';
 import 'screens/payment_success_screen.dart';
 import 'services/user_service.dart';
 import 'services/onboarding_data.dart';
-import 'services/mongodb_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Load environment variables from .env file
   try {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    await dotenv.load(fileName: ".env");
-  } catch (e) {
-    print('Failed to load .env file: $e');
-  }
-
-  // Initialize Firebase
-  try {
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-    // Initialize Firebase (Auth only)
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    print('✅ Firebase Auth initialized');
-
-    // Initialize MongoDB service
-    MongoDBService().initialize();
-    print('✅ MongoDB service initialized');
-
-    // Test MongoDB connection (optional)
-    final mongoConnected = await MongoDBService().testConnection();
-    if (mongoConnected) {
-      print('✅ MongoDB backend connected');
-    } else {
-      print('⚠️ MongoDB backend not reachable (will use local storage fallback)');
-    }
   } catch (e) {
-    print('❌ Initialization failed: $e');
+    print('Firebase initialization failed: $e');
   }
-
   runApp(const BmsApp());
 }
 
