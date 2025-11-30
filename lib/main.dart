@@ -16,15 +16,30 @@ import 'screens/payment_screen.dart';
 import 'screens/payment_success_screen.dart';
 import 'services/user_service.dart';
 import 'services/onboarding_data.dart';
+import 'services/mongodb_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
+    // Initialize Firebase (Auth only)
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+    print('✅ Firebase Auth initialized');
+
+    // Initialize MongoDB service
+    MongoDBService().initialize();
+    print('✅ MongoDB service initialized');
+
+    // Test MongoDB connection (optional)
+    final mongoConnected = await MongoDBService().testConnection();
+    if (mongoConnected) {
+      print('✅ MongoDB backend connected');
+    } else {
+      print('⚠️ MongoDB backend not reachable (will use local storage fallback)');
+    }
   } catch (e) {
-    print('Firebase initialization failed: $e');
+    print('❌ Initialization failed: $e');
   }
   runApp(const BmsApp());
 }
