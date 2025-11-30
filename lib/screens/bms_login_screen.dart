@@ -175,17 +175,7 @@ class _BmsLoginScreenState extends State<BmsLoginScreen> {
             ),
           ),
           const Spacer(),
-          // Time display (system time)
-          Text(
-            TimeOfDay.now().format(context),
-            style: const TextStyle(
-              fontFamily: 'SF Pro Text',
-              fontSize: 14.5,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
-              letterSpacing: -0.29,
-            ),
-          ),
+          // Time display removed
         ],
       ),
     );

@@ -263,7 +263,18 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (_) => MainMapPage()),
+                              PageRouteBuilder(
+                                pageBuilder: (context, animation, secondaryAnimation) => MainMapPage(),
+                                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                  const begin = Offset(1.0, 0.0);
+                                  const end = Offset.zero;
+                                  const curve = Curves.easeInOut;
+                                  var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                                  var offsetAnimation = animation.drive(tween);
+                                  return SlideTransition(position: offsetAnimation, child: child);
+                                },
+                                transitionDuration: const Duration(milliseconds: 300),
+                              ),
                             );
                           },
                           child: _buildFeatureCardWithIcon(
@@ -336,8 +347,7 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    const ECommerceHomeScreen(),
+                                builder: (context) => const ECommerceHomeScreen(),
                               ),
                             );
                           },

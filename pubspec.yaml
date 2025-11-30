@@ -9,11 +9,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  
+
   # UI & Fonts
   cupertino_icons: ^1.0.2
   google_fonts: ^6.3.2
-  
+
   # Firebase - Auth Only (MongoDB for backend)
   firebase_core: ^4.2.1
   firebase_auth: ^6.1.2
@@ -21,10 +21,9 @@ dependencies:
   # HTTP Client for MongoDB API calls
   http: ^1.2.0
   dio: ^5.4.0
-  
+
   # Google Services (Using stable v6.x for better compatibility)
   google_sign_in: ^6.2.1
-<<<<<<< Updated upstream
   firebase_core: ^3.6.0
   firebase_auth: ^5.3.1
   cloud_firestore: ^5.4.4
@@ -35,29 +34,31 @@ dependencies:
   geolocator: ^10.1.0
   geocoding: ^2.1.1
 =======
-  
+
   # Local Storage
   shared_preferences: ^2.4.0
-  
+
   # Media & Permissions
   image_picker: ^1.2.0
-  
+
   # Network
   connectivity_plus: ^6.1.0
-  
+
   # Maps & Location
   google_maps_flutter: ^2.13.1
   geolocator: ^14.0.2
   geocoding: ^4.0.0
-  
+
   # SVG Support
   flutter_svg: ^2.0.10+1
 >>>>>>> Stashed changes
+  # Environment variables
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^6.0.0
+  flutter_lints: ^2.0.0
 
 flutter:
   uses-material-design: true
@@ -68,3 +69,4 @@ flutter:
     - assets/images/icons/
     - assets/images/3d_icons/
     - assets/icons/
+    - .env

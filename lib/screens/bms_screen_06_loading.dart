@@ -96,89 +96,9 @@ class _BmsScreen06LoadingState extends State<BmsScreen06Loading>
               ),
             ),
           ),
-          
-          // Status bar
-          Positioned(
-            left: 0,
-            top: 0,
-            child: Container(
-              width: 390,
-              height: 45.77,
-              child: Stack(
-                children: [
-                  // Time
-                  Positioned(
-                    left: 21.84,
-                    top: 13.52,
-                    child: Container(
-                      width: 56.17,
-                      height: 21.84,
-                      child: const Center(
-                        child: Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: '9:4',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14.56,
-                                  fontFamily: 'SF Pro Text',
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: -0.29,
-                                ),
-                              ),
-                              TextSpan(
-                                text: '1',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14.56,
-                                  fontFamily: 'SF Pro Text',
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ),
-                  
-                  // Battery
-                  Positioned(
-                    right: 16,
-                    top: 18.03,
-                    child: Row(
-                      children: [
-                        Icon(Icons.signal_cellular_4_bar, color: Colors.white, size: 16),
-                        const SizedBox(width: 4),
-                        Icon(Icons.wifi, color: Colors.white, size: 16),
-                        const SizedBox(width: 4),
-                        Container(
-                          width: 22.89,
-                          height: 11.79,
-                          decoration: ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(width: 1.04, color: Colors.white),
-                              borderRadius: BorderRadius.circular(2.77),
-                            ),
-                          ),
-                          child: Container(
-                            margin: const EdgeInsets.all(1),
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.all(Radius.circular(1.39)),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          
+
+          // Status bar removed
+
           // Bottom indicator
           Positioned(
             left: 0,
