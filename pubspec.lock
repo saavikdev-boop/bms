@@ -6,6 +6,7 @@ packages:
     description:
       name: _flutterfire_internals
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       sha256: ff0a84a2734d9e1089f8aedd5c0af0061b82fb94e95260d943404e0ef2134b11
       url: "https://pub.dev"
     source: hosted
@@ -14,6 +15,11 @@ packages:
       sha256: "8a1f5f3020ef2a74fb93f7ab3ef127a8feea33a7a2276279113660784ee7516a"
       url: "https://pub.dev"
     source: hosted
+=======
+      sha256: "8a1f5f3020ef2a74fb93f7ab3ef127a8feea33a7a2276279113660784ee7516a"
+      url: "https://pub.dev"
+    source: hosted
+>>>>>>> Stashed changes
     version: "1.3.64"
   args:
     dependency: transitive
@@ -23,6 +29,9 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.7.0"
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   async:
     dependency: transitive
@@ -57,6 +66,7 @@ packages:
     source: hosted
     version: "1.1.2"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   cloud_firestore:
     dependency: "direct main"
     description:
@@ -83,6 +93,8 @@ packages:
     version: "4.4.12"
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
   collection:
     dependency: transitive
     description:
@@ -92,7 +104,10 @@ packages:
     source: hosted
     version: "1.19.1"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
   connectivity_plus:
     dependency: "direct main"
     description:
@@ -109,6 +124,9 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   cross_file:
     dependency: transitive
@@ -227,10 +245,17 @@ packages:
     description:
       name: firebase_auth
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       sha256: "0fed2133bee1369ee1118c1fef27b2ce0d84c54b7819a2b17dada5cfec3b03ff"
       url: "https://pub.dev"
     source: hosted
     version: "5.7.0"
+=======
+      sha256: e54fb3ba57de041d832574126a37726eedf0f57400869f1942b0ca8ce4a6e209
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.2"
+>>>>>>> Stashed changes
 =======
       sha256: e54fb3ba57de041d832574126a37726eedf0f57400869f1942b0ca8ce4a6e209
       url: "https://pub.dev"
@@ -242,10 +267,17 @@ packages:
     description:
       name: firebase_auth_platform_interface
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       sha256: "871c9df4ec9a754d1a793f7eb42fa3b94249d464cfb19152ba93e14a5966b386"
       url: "https://pub.dev"
     source: hosted
     version: "7.7.3"
+=======
+      sha256: "421f95dc553cb283ed9d4d140e719800c0331d49ed37b962e513c9d1d61b090b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "8.1.4"
+>>>>>>> Stashed changes
 =======
       sha256: "421f95dc553cb283ed9d4d140e719800c0331d49ed37b962e513c9d1d61b090b"
       url: "https://pub.dev"
@@ -257,10 +289,17 @@ packages:
     description:
       name: firebase_auth_web
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       sha256: d9ada769c43261fd1b18decf113186e915c921a811bd5014f5ea08f4cf4bc57e
       url: "https://pub.dev"
     source: hosted
     version: "5.15.3"
+=======
+      sha256: a064ffee202f7d42d62e2c01775899d4ffcb83c602af07632f206acd46a0964e
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.0"
+>>>>>>> Stashed changes
 =======
       sha256: a064ffee202f7d42d62e2c01775899d4ffcb83c602af07632f206acd46a0964e
       url: "https://pub.dev"
@@ -272,10 +311,17 @@ packages:
     description:
       name: firebase_core
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       sha256: "7be63a3f841fc9663342f7f3a011a42aef6a61066943c90b1c434d79d5c995c5"
       url: "https://pub.dev"
     source: hosted
     version: "3.15.2"
+=======
+      sha256: "1f2dfd9f535d81f8b06d7a50ecda6eac1e6922191ed42e09ca2c84bd2288927c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.1"
+>>>>>>> Stashed changes
 =======
       sha256: "1f2dfd9f535d81f8b06d7a50ecda6eac1e6922191ed42e09ca2c84bd2288927c"
       url: "https://pub.dev"
@@ -295,10 +341,17 @@ packages:
     description:
       name: firebase_core_web
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       sha256: "0ed0dc292e8f9ac50992e2394e9d336a0275b6ae400d64163fdf0a8a8b556c37"
       url: "https://pub.dev"
     source: hosted
     version: "2.24.1"
+=======
+      sha256: ff18fabb0ad0ed3595d2f2c85007ecc794aadecdff5b3bb1460b7ee47cded398
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.3.0"
+>>>>>>> Stashed changes
 =======
       sha256: ff18fabb0ad0ed3595d2f2c85007ecc794aadecdff5b3bb1460b7ee47cded398
       url: "https://pub.dev"
@@ -343,7 +396,10 @@ packages:
     source: hosted
     version: "2.0.32"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
   flutter_svg:
     dependency: "direct main"
     description:
@@ -352,6 +408,9 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.2"
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   flutter_test:
     dependency: "direct dev"
@@ -469,6 +528,9 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.3.2"
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   google_identity_services_web:
     dependency: transitive
@@ -759,7 +821,10 @@ packages:
     source: hosted
     version: "1.9.1"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
   path_parsing:
     dependency: transitive
     description:
@@ -768,6 +833,9 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   path_provider:
     dependency: transitive
@@ -919,6 +987,7 @@ packages:
     source: hosted
     version: "1.10.1"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   sprintf:
     dependency: transitive
     description:
@@ -927,6 +996,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0"
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   stack_trace:
@@ -1042,7 +1113,10 @@ packages:
     source: hosted
     version: "1.1.1"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
   win32:
     dependency: transitive
     description:
@@ -1051,6 +1125,9 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.15.0"
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   xdg_directories:
     dependency: transitive
@@ -1070,8 +1147,13 @@ packages:
     version: "6.6.1"
 sdks:
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   dart: ">=3.8.0-0 <4.0.0"
   flutter: ">=3.24.0"
+=======
+  dart: ">=3.9.0 <4.0.0"
+  flutter: ">=3.35.0"
+>>>>>>> Stashed changes
 =======
   dart: ">=3.9.0 <4.0.0"
   flutter: ">=3.35.0"

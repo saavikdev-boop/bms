@@ -33,6 +33,8 @@ void main() async {
   try {
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
     // Initialize Firebase (Auth only)
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
