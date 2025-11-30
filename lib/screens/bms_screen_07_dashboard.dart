@@ -253,8 +253,7 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    const ECommerceHomeScreen(),
+                                builder: (context) => const ECommerceHomeScreen(),
                               ),
                             );
                           },
