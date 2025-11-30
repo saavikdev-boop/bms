@@ -25,6 +25,7 @@ void main() async {
   try {
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     await dotenv.load(fileName: ".env");
   } catch (e) {
     print('Failed to load .env file: $e');
@@ -32,6 +33,8 @@ void main() async {
 
   // Initialize Firebase
   try {
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
