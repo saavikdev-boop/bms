@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'bms_screen_04_gender.dart';
+import '../services/onboarding_data.dart';
 
 class BmsScreen03Profile extends StatefulWidget {
   const BmsScreen03Profile({super.key});
@@ -167,6 +168,99 @@ class _BmsScreen03ProfileState extends State<BmsScreen03Profile> with TickerProv
         _dobController.text = '${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}';
       });
     }
+  }
+
+  void _validateAndContinue() {
+    final firstName = _firstNameController.text.trim();
+    final lastName = _lastNameController.text.trim();
+    final dob = _dobController.text.trim();
+
+    // Validation checks
+    if (firstName.isEmpty) {
+      _showErrorSnackBar('Please enter your first name');
+      return;
+    }
+
+    if (firstName.length < 2) {
+      _showErrorSnackBar('First name must be at least 2 characters');
+      return;
+    }
+
+    if (lastName.isEmpty) {
+      _showErrorSnackBar('Please enter your last name');
+      return;
+    }
+
+    if (lastName.length < 2) {
+      _showErrorSnackBar('Last name must be at least 2 characters');
+      return;
+    }
+
+    if (dob.isEmpty) {
+      _showErrorSnackBar('Please select your date of birth');
+      return;
+    }
+
+    // Validate age (must be at least 13 years old)
+    try {
+      final parts = dob.split('/');
+      if (parts.length == 3) {
+        final birthYear = int.parse(parts[2]);
+        final currentYear = DateTime.now().year;
+        final age = currentYear - birthYear;
+
+        if (age < 13) {
+          _showErrorSnackBar('You must be at least 13 years old to use this app');
+          return;
+        }
+
+        if (age > 120) {
+          _showErrorSnackBar('Please enter a valid date of birth');
+          return;
+        }
+      }
+    } catch (e) {
+      _showErrorSnackBar('Invalid date of birth format');
+      return;
+    }
+
+    // Save to OnboardingData
+    final onboardingData = OnboardingData();
+    onboardingData.firstName = firstName;
+    onboardingData.lastName = lastName;
+    onboardingData.dateOfBirth = dob;
+
+    // All validation passed, continue to next screen
+    HapticFeedback.mediumImpact();
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => const BmsScreen04Gender(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1.0, 0.0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 300),
+      ),
+    );
+  }
+
+  void _showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red.shade700,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        margin: const EdgeInsets.all(16),
+      ),
+    );
   }
 
   @override
@@ -358,24 +452,7 @@ class _BmsScreen03ProfileState extends State<BmsScreen03Profile> with TickerProv
                             width: double.infinity,
                             height: 58,
                             child: ElevatedButton(
-                              onPressed: () {
-                                HapticFeedback.mediumImpact();
-                                Navigator.of(context).push(
-                                  PageRouteBuilder(
-                                    pageBuilder: (context, animation, secondaryAnimation) => const BmsScreen04Gender(),
-                                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                      return SlideTransition(
-                                        position: Tween<Offset>(
-                                          begin: const Offset(1.0, 0.0),
-                                          end: Offset.zero,
-                                        ).animate(animation),
-                                        child: child,
-                                      );
-                                    },
-                                    transitionDuration: const Duration(milliseconds: 300),
-                                  ),
-                                );
-                              },
+                              onPressed: _validateAndContinue,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFFA1FF00),
                                 foregroundColor: Colors.black,
@@ -508,67 +585,47 @@ class _BmsScreen03ProfileState extends State<BmsScreen03Profile> with TickerProv
       onTap: readOnly ? onTap : null,
       child: Container(
         height: 58,
-        decoration: const ShapeDecoration(
-          color: Color(0xFFF9FAFB),
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              width: 1.04,
-              color: Color(0xFFE5E6EB),
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(8.32)),
+        decoration: BoxDecoration(
+          color: const Color(0xFF1A1A1A),
+          border: Border.all(
+            width: 1,
+            color: Colors.white.withOpacity(0.2),
           ),
+          borderRadius: BorderRadius.circular(8),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
           children: [
-            Text(
-              label,
-              style: const TextStyle(
-                color: Color(0xFF9EA3AE),
-                fontSize: 10,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 1,
-                height: 1.0,
+            Expanded(
+              child: TextField(
+                controller: controller,
+                readOnly: readOnly,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  height: 1.2,
+                ),
+                decoration: InputDecoration(
+                  hintText: hintText,
+                  hintStyle: TextStyle(
+                    color: Colors.white.withOpacity(0.3),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  border: InputBorder.none,
+                  isDense: true,
+                  contentPadding: EdgeInsets.zero,
+                ),
+                maxLines: 1,
               ),
             ),
-            const SizedBox(height: 2),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: controller,
-                    readOnly: readOnly,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      height: 1.2,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: hintText,
-                      hintStyle: const TextStyle(
-                        color: Color(0xFF9EA3AE),
-                        fontSize: 15,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      border: InputBorder.none,
-                      isDense: true,
-                      contentPadding: EdgeInsets.zero,
-                    ),
-                    maxLines: 1,
-                  ),
-                ),
-                if (hasIcon)
-                  const Icon(
-                    Icons.calendar_today,
-                    color: Color(0xFF9EA3AE),
-                    size: 18,
-                  ),
-              ],
-            ),
+            if (hasIcon)
+              Icon(
+                Icons.calendar_today,
+                color: Colors.white.withOpacity(0.4),
+                size: 18,
+              ),
           ],
         ),
       ),

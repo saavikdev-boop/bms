@@ -251,9 +251,9 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
               ),
             ),
 
-            // Feature cards grid - EXACT FIGMA MATCH
+            // Feature cards grid
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
                   Row(
@@ -269,17 +269,14 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                           child: _buildFeatureCardWithIcon(
                             'Nearby Players',
                             'See who\'s ready to play around you.',
-                            'assets/images/3d_icons/nearby_players.png',
-                            true,
-                            [
-                              const Color(0xFF1459CF),
-                              const Color(0xFF0F439C),
-                              const Color(0xFF0A2D69),
-                            ],
+                            'assets/images/nearby_players_icon.svg',
+                            const Color(0xFF1459CF),
+                            const Color(0xFF0F439C),
+                            const Color(0xFF0A2D69),
                           ),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: 16),
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
@@ -293,43 +290,36 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                           child: _buildFeatureCardWithIcon(
                             'Host a Game',
                             'Create your match and invite players.',
-                            'assets/images/3d_icons/host_game.png',
-                            true,
-                            [
-                              const Color(0xFF7CFE6A),
-                              const Color(0xFF3ED260),
-                              const Color(0xFF004D41),
-                            ],
+                            'assets/images/host_game_icon.svg',
+                            const Color(0xFF7CFE6A),
+                            const Color(0xFF5FD954),
+                            const Color(0xFF004D40),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 20),
                   Row(
                     children: [
                       Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (_) => BookingsApp()),
-                            );
-                          },
-                          child: _buildFeatureCardWithIcon(
-                            'My Bookings',
-                            'All your games in one place.',
-                            'assets/images/3d_icons/bookings.png',
-                            true,
-                            [
-                              const Color(0xFFFFD956),
-                              const Color(0xFFF4A42B),
-                              const Color(0xFFE96F00),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
+                          child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => BookingsApp()),
+                                );
+                              },
+                              child: _buildFeatureCardWithIcon(
+                                'My Bookings',
+                                'All your games in one place.',
+                                'assets/images/bookings_icon.svg',
+                                const Color(0xFFFFD956),
+                                const Color(0xFFE8B820),
+                                const Color(0xFFE86F00),
+                              ))),
+                      const SizedBox(width: 16),
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
@@ -344,13 +334,10 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
                           child: _buildFeatureCardWithIcon(
                             'Shop Here',
                             'Find everything you need for your next game.',
-                            'assets/images/3d_icons/shop.png',
-                            true,
-                            [
-                              const Color(0xFFFF9AA8),
-                              const Color(0xFFB74DBA),
-                              const Color(0xFF6F00CB),
-                            ],
+                            'assets/images/shop_icon.svg',
+                            const Color(0xFFFF9AA8),
+                            const Color(0xFFE8788A),
+                            const Color(0xFF6F00CB),
                           ),
                         ),
                       ),
@@ -423,7 +410,7 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
               ),
             ),
 
-            const SizedBox(height: 100),
+            const SizedBox(height: 100), // Space for bottom navigation
           ],
         ),
       ),
@@ -435,149 +422,228 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
     String title,
     String description,
     String iconPath,
-    bool isPng,
-    List<Color> gradientColors,
+    Color startColor,
+    Color midColor,
+    Color endColor,
   ) {
     return SizedBox(
       height: 102,
       child: Stack(
-        clipBehavior: Clip.none, // Allow overflow
+        clipBehavior: Clip.none,
         children: [
-          // Card container with gradient
-          Container(
-            height: 102,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.25),
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                    center: const Alignment(0.7, -0.3),
-                    radius: 1.2,
-                    colors: gradientColors,
+          // 3D Icon Image - positioned at top left, overlapping card
+          Positioned(
+            left: 0,
+            top: 0,
+            child: Container(
+              width: 102,
+              height: 102,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 15,
+                    offset: const Offset(0, 5),
                   ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 16,
-                    top: 14,
-                    bottom: 14,
-                    right: 16,
-                  ),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: SizedBox(
-                      width: 140,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            title,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                              height: 1.15,
-                              shadows: [
-                                Shadow(
-                                  color: Colors.black26,
-                                  offset: Offset(0, 1),
-                                  blurRadius: 2,
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            description,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                              height: 1.3,
-                              shadows: [
-                                Shadow(
-                                  color: Colors.black26,
-                                  offset: Offset(0, 1),
-                                  blurRadius: 2,
-                                ),
-                              ],
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: SvgPicture.asset(
+                  iconPath,
+                  fit: BoxFit.cover,
+                  placeholderBuilder: (context) => Container(
+                    color: startColor.withOpacity(0.3),
+                    child: const Icon(
+                      Icons.image,
+                      color: Colors.white54,
+                      size: 40,
                     ),
                   ),
                 ),
               ),
             ),
           ),
-          // 3D Icon - OVERFLOWING from top-right corner
+          // Card - positioned below the icon
           Positioned(
-            right: -10,
-            top: -25,
-            child: SizedBox(
-              width: 120,
-              height: 120,
-              child: isPng
-                  ? Image.asset(
-                      iconPath,
-                      fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) => Container(
-                        decoration: BoxDecoration(
-                          gradient: RadialGradient(
-                            colors: [
-                              gradientColors[0].withOpacity(0.5),
-                              gradientColors[2].withOpacity(0.3),
-                            ],
+            left: 0,
+            bottom: 0,
+            right: 0,
+            child: Container(
+              height: 64.022,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: const Color(0xFFEBEBEB),
+                  width: 0.5,
+                ),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: RadialGradient(
+                      center: const Alignment(0.98, 0.91),
+                      radius: 2.89,
+                      colors: [startColor, midColor, endColor],
+                    ),
+                  ),
+                  child: Stack(
+                    children: [
+                      // Blue blur accent in top-right
+                      Positioned(
+                        right: 0,
+                        top: 8.6,
+                        child: Container(
+                          width: 60.2,
+                          height: 42.044,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF0089DA),
+                            borderRadius: BorderRadius.circular(30),
                           ),
-                            shape: BoxShape.circle,
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 19.016, sigmaY: 19.016),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
                           ),
-                          child: const Icon(
-                            Icons.sports_outlined,
-                            color: Colors.white60,
-                            size: 45,
-                          ),
-                        ),
-                      )
-                  : SvgPicture.asset(
-                      iconPath,
-                      fit: BoxFit.contain,
-                      placeholderBuilder: (context) => Container(
-                        decoration: BoxDecoration(
-                          gradient: RadialGradient(
-                            colors: [
-                              gradientColors[0].withOpacity(0.5),
-                              gradientColors[2].withOpacity(0.3),
-                            ],
-                          ),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.sports_outlined,
-                          color: Colors.white60,
-                          size: 45,
                         ),
                       ),
-                    ),
+                      // Text content
+                      Positioned(
+                        left: 5.73,
+                        top: 21.02,
+                        right: 8,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              title,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              description,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 9,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w400,
+                                height: 1.3,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildFeatureCard(
+      String title, String description, Color startColor, Color endColor) {
+    return Container(
+      width: 166.27,
+      height: 102,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Colors.white.withOpacity(0.15),
+            Colors.white.withOpacity(0.05),
+          ],
+        ),
+        border: Border.all(
+          width: 1.5,
+          color: Colors.white.withOpacity(0.2),
+        ),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: startColor.withOpacity(0.3),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Stack(
+            children: [
+              // Background gradient accent
+              Positioned(
+                right: -20,
+                top: -20,
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    gradient: RadialGradient(
+                      colors: [
+                        startColor.withOpacity(0.4),
+                        endColor.withOpacity(0.2),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              // Content
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.3,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      description,
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.8),
+                        fontSize: 11,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                        height: 1.3,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -890,7 +956,7 @@ class _BmsScreen07DashboardState extends State<BmsScreen07Dashboard> {
               height: 36,
               decoration: const ShapeDecoration(
                 color: Color(0xFF0E0E0E),
-                shape: RoundedRectangleBorder(
+                shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4))),
               ),
               child: const Row(

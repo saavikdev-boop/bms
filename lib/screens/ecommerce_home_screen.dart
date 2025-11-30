@@ -335,43 +335,46 @@ class _ECommerceHomeScreenState extends State<ECommerceHomeScreen> {
                       ),
                     const Spacer(),
                     Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         if (product.mrp != product.price) ...[
-                          Text(
-                            '₹${product.mrp}',
-                            style: const TextStyle(
-                              color: Color(0xFF9E9E9E),
-                              fontSize: 12,
-                              decoration: TextDecoration.lineThrough,
+                          Flexible(
+                            child: Text(
+                              '₹${product.mrp}',
+                              style: const TextStyle(
+                                color: Color(0xFF9E9E9E),
+                                fontSize: 12,
+                                decoration: TextDecoration.lineThrough,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           const SizedBox(width: 4),
                         ],
-                        Text(
-                          '₹${product.price}',
-                          style: const TextStyle(
-                            color: Color(0xFFA1FF00),
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
+                        Flexible(
+                          child: Text(
+                            '₹${product.price}',
+                            style: const TextStyle(
+                              color: Color(0xFFA1FF00),
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        const Spacer(),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                              size: 12,
-                            ),
-                            const SizedBox(width: 2),
-                            Text(
-                              product.rating.toString(),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 10,
-                              ),
-                            ),
-                          ],
+                        const SizedBox(width: 8),
+                        const Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                          size: 12,
+                        ),
+                        const SizedBox(width: 2),
+                        Text(
+                          product.rating.toString(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                          ),
                         ),
                       ],
                     ),

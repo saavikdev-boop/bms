@@ -211,25 +211,17 @@ class _BmsLoginScreenState extends State<BmsLoginScreen> {
           color: Colors.black,
         ),
         decoration: InputDecoration(
-          labelText: 'PHONE NO',
-          labelStyle: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFF9EA3AE),
-            letterSpacing: 1.04,
-          ),
           hintText: 'Enter your phone number',
           hintStyle: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            color: Colors.black.withOpacity(0.5),
+            color: Colors.black.withOpacity(0.4),
           ),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16.64,
-            vertical: 16,
+            vertical: 18,
           ),
           border: InputBorder.none,
-          floatingLabelBehavior: FloatingLabelBehavior.always,
         ),
       ),
     );

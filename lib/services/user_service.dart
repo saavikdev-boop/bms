@@ -1,10 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'mongodb_service.dart';
 
 class UserService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final MongoDBService _mongoDb = MongoDBService();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Local storage fallback
@@ -56,8 +56,9 @@ class UserService {
         'onlineStatus': true,
         'notifications': true
       },
-      'createdAt': FieldValue.serverTimestamp(),
-      'updatedAt': FieldValue.serverTimestamp(),
+      'uid': _auth.currentUser?.uid,
+      'createdAt': DateTime.now().toIso8601String(),
+      'updatedAt': DateTime.now().toIso8601String(),
     };
   }
 
@@ -97,21 +98,21 @@ class UserService {
         interests: interests,
       );
 
-      // Try to save to Firestore first
+      // Try to save to MongoDB first
       try {
-        await _firestore
-            .collection('User Data')
-            .doc(currentUserId)
-            .set(userProfile, SetOptions(merge: true));
+        final result = await _mongoDb.createUserProfile(userProfile);
 
-        print('✅ User profile saved to Firestore successfully');
+        if (result != null) {
+          print('✅ User profile saved to MongoDB successfully');
 
-        // Also save locally as backup
-        await _saveProfileLocally(userProfile);
-        return true;
-
-      } catch (firestoreError) {
-        print('⚠️ Firestore error: $firestoreError');
+          // Also save locally as backup
+          await _saveProfileLocally(userProfile);
+          return true;
+        } else {
+          throw Exception('Failed to save profile to MongoDB');
+        }
+      } catch (mongoError) {
+        print('⚠️ MongoDB error: $mongoError');
         print('📱 Falling back to local storage');
 
         // Fallback to local storage
@@ -154,19 +155,18 @@ class UserService {
         return null;
       }
 
-      // Try Firestore first
+      // Try MongoDB first
       try {
-        final doc = await _firestore
-            .collection('User Data')
-            .doc(currentUserId)
-            .get();
+        final profile = await _mongoDb.getUserProfile(currentUserId!);
 
-        if (doc.exists) {
-          print('✅ User profile retrieved from Firestore successfully');
-          return doc.data();
+        if (profile != null) {
+          print('✅ User profile retrieved from MongoDB successfully');
+          // Update local cache
+          await _saveProfileLocally(profile);
+          return profile;
         }
-      } catch (firestoreError) {
-        print('⚠️ Firestore error: $firestoreError');
+      } catch (mongoError) {
+        print('⚠️ MongoDB error: $mongoError');
         print('📱 Trying local storage fallback');
       }
 
@@ -201,17 +201,19 @@ class UserService {
         return false;
       }
 
-      updates['updatedAt'] = FieldValue.serverTimestamp();
+      updates['updatedAt'] = DateTime.now().toIso8601String();
 
-      await _firestore
-          .collection('User Data')
-          .doc(currentUserId)
-          .update(updates);
+      final result = await _mongoDb.updateUserProfile(currentUserId!, updates);
 
-      print('User profile updated successfully');
-      return true;
+      if (result != null) {
+        print('✅ User profile updated successfully');
+        // Update local cache
+        await _saveProfileLocally(result);
+        return true;
+      }
+      return false;
     } catch (e) {
-      print('Error updating user profile: $e');
+      print('❌ Error updating user profile: $e');
       return false;
     }
   }
@@ -220,13 +222,7 @@ class UserService {
   Future<bool> userProfileExists() async {
     try {
       if (currentUserId == null) return false;
-
-      final doc = await _firestore
-          .collection('User Data')
-          .doc(currentUserId)
-          .get();
-
-      return doc.exists;
+      return await _mongoDb.userProfileExists(currentUserId!);
     } catch (e) {
       print('Error checking if user profile exists: $e');
       return false;
@@ -241,15 +237,18 @@ class UserService {
         return false;
       }
 
-      await _firestore
-          .collection('User Data')
-          .doc(currentUserId)
-          .delete();
+      final success = await _mongoDb.deleteUserProfile(currentUserId!);
 
-      print('User profile deleted successfully');
-      return true;
+      if (success) {
+        print('✅ User profile deleted successfully');
+        // Clear local cache
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.remove(_localProfileKey);
+        return true;
+      }
+      return false;
     } catch (e) {
-      print('Error deleting user profile: $e');
+      print('❌ Error deleting user profile: $e');
       return false;
     }
   }

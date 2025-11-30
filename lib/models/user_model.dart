@@ -29,7 +29,7 @@ class UserModel {
 
   factory UserModel.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-    
+
     return UserModel(
       uid: doc.id,
       email: data['email'] ?? '',
@@ -45,8 +45,33 @@ class UserModel {
     );
   }
 
+  factory UserModel.fromMap(Map<String, dynamic> data) {
+    return UserModel(
+      uid: data['uid'] ?? '',
+      email: data['email'] ?? '',
+      displayName: data['displayName'],
+      photoURL: data['photoURL'],
+      name: data['name'],
+      age: data['age'],
+      gender: data['gender'],
+      sports: data['sports'] != null ? List<String>.from(data['sports']) : null,
+      interests: data['interests'] != null ? List<String>.from(data['interests']) : null,
+      createdAt: data['createdAt'] is Timestamp
+          ? (data['createdAt'] as Timestamp).toDate()
+          : data['createdAt'] is String
+              ? DateTime.parse(data['createdAt'])
+              : DateTime.now(),
+      updatedAt: data['updatedAt'] is Timestamp
+          ? (data['updatedAt'] as Timestamp).toDate()
+          : data['updatedAt'] is String
+              ? DateTime.parse(data['updatedAt'])
+              : DateTime.now(),
+    );
+  }
+
   Map<String, dynamic> toFirestore() {
     return {
+      'uid': uid,
       'email': email,
       'displayName': displayName,
       'photoURL': photoURL,
