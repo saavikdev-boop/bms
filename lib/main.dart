@@ -23,6 +23,7 @@ void main() async {
 
   // Load environment variables from .env file
   try {
+<<<<<<< Updated upstream
     await dotenv.load(fileName: ".env");
   } catch (e) {
     print('Failed to load .env file: $e');
@@ -30,6 +31,8 @@ void main() async {
 
   // Initialize Firebase
   try {
+=======
+>>>>>>> Stashed changes
     // Initialize Firebase (Auth only)
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
